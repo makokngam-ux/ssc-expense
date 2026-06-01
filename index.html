@@ -1072,6 +1072,179 @@ td.center { text-align: center; }
 
 .empty-state p { font-size: 14px; margin-bottom: 20px; color: var(--slate-500); }
 
+/* ============ ACTION BUTTONS (Edit/Delete in list) ============ */
+/* ============ LIST VIEW SWITCH (Desktop Table vs Mobile Card) ============ */
+.list-desktop-view { display: block; }
+.list-mobile-view { display: none; }
+
+/* ============ ACTION BUTTONS (Edit/Delete in list) ============ */
+.action-btn {
+  background: var(--cream-100);
+  border: 1px solid var(--cream-300);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 2px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.action-btn.edit:hover {
+  background: var(--gold-100);
+  border-color: var(--gold-500);
+}
+
+.action-btn.delete:hover {
+  background: var(--red-100);
+  border-color: var(--red-500);
+}
+
+/* ============ MOBILE LIST CARDS (เห็นบนมือถือเท่านั้น) ============ */
+.list-card-item {
+  background: white;
+  border: 1px solid var(--cream-300);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  margin: 12px 14px;
+  box-shadow: var(--shadow-xs);
+  position: relative;
+  overflow: hidden;
+}
+
+.list-card-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--grad-gold);
+}
+
+.list-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.list-card-customer {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy-900);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.list-card-desc {
+  font-size: 13px;
+  color: var(--slate-600);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.list-card-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: var(--slate-500);
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed var(--cream-300);
+}
+
+.list-card-meta span {
+  font-weight: 500;
+}
+
+.list-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.list-card-amount {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy-900);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.list-card-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.list-card-actions .action-btn {
+  width: auto;
+  height: 36px;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ============ EDIT MODE BANNER ============ */
+.edit-mode-banner {
+  display: none;
+  background: linear-gradient(135deg, var(--gold-50), var(--gold-100));
+  border: 2px solid var(--gold-500);
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  box-shadow: var(--shadow-gold);
+}
+
+.edit-mode-banner.active {
+  display: flex;
+}
+
+.edit-mode-banner .info {
+  font-size: 14px;
+  color: var(--navy-900);
+  font-weight: 600;
+}
+
+.edit-mode-banner .info strong {
+  color: var(--gold-900);
+}
+
+.edit-mode-banner .cancel-edit {
+  background: white;
+  border: 1px solid var(--cream-300);
+  color: var(--red-500);
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.edit-mode-banner .cancel-edit:hover {
+  background: var(--red-100);
+  border-color: var(--red-500);
+}
+
 /* ============ FORM (Add Expense) ============ */
 .form-grid {
   display: grid;
@@ -1485,27 +1658,70 @@ td.center { text-align: center; }
     transform: translateX(0);
   }
   
-  /* Mobile toggle visible */
+  /* ===== FLOATING HAMBURGER ===== */
+  /* ขยับปุ่มออกจาก topbar ทำเป็น floating ที่มุมขวาบน
+     ปรับให้ลงมาต่ำกว่าเดิม + ห่างจากขอบ เพื่อให้นิ้วโป้งกดถึงสะดวก */
   .mobile-toggle { 
     display: grid; 
     place-items: center;
+    position: fixed;
+    top: 64px;          /* ลงมาจากขอบ เพื่อให้กดง่าย */
+    right: 14px;
+    z-index: 90;
+    width: 46px;
+    height: 46px;
+    background: var(--grad-navy);
+    color: var(--gold-300);
+    border: 1.5px solid var(--gold-500);
+    border-radius: 50%;
+    box-shadow: var(--shadow-md), 0 4px 16px rgba(10, 31, 68, 0.25);
+  }
+  
+  .mobile-toggle:active {
+    transform: scale(0.92);
   }
   
   .main { 
     padding: 16px 14px;
     max-width: 100%;
     width: 100%;
+    overflow-x: hidden;  /* ป้องกัน element ล้นออกขอบ */
   }
   
-  /* Topbar compact */
+  /* Topbar compact - ไม่มี action buttons แล้ว (ย้ายออกไปแล้ว) */
   .topbar { 
     margin-bottom: 20px;
     padding-bottom: 16px;
     gap: 12px;
     align-items: center;
+    padding-right: 60px;  /* เผื่อที่ให้ปุ่ม floating ขวา */
   }
   .topbar h1 { font-size: 22px; }
   .topbar .subtitle { font-size: 12px; }
+  
+  /* ซ่อน topbar-actions บนมือถือ (ปุ่มทั้งหมดจัดเป็น floating แล้ว) */
+  .topbar-actions {
+    display: none;
+  }
+  
+  /* ===== INPUT FIELDS ===== */
+  /* ปรับ input ทุกชนิดให้กว้างเท่ากัน (วันที่/text/textarea) */
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+  
+  /* Date input — ให้แสดงปกติ ไม่ขยายเกิน */
+  .field input[type="date"] {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    min-height: 46px;  /* เท่า input อื่น */
+  }
   
   /* KPI: 1 column */
   .kpi-grid { 
@@ -1572,11 +1788,14 @@ td.center { text-align: center; }
   }
   .distance-display .item .value { font-size: 18px; }
   
-  /* Tables compact + scrollable */
+  /* Tables compact + scrollable (สำหรับตารางเก่าใน dashboard) */
   .list-card {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;  /* ไม่ scroll - ใช้ card view แทน */
   }
+  
+  /* === SWITCH: ซ่อน table view → แสดง card view บนมือถือ === */
+  .list-desktop-view { display: none; }
+  .list-mobile-view { display: block; }
   
   table { font-size: 12px; }
   thead th, tbody td { padding: 10px 14px; }
@@ -1594,12 +1813,24 @@ td.center { text-align: center; }
     gap: 10px;
   }
   
-  /* Filter tabs scrollable */
+  /* Filter tabs - wrap แทน scroll + เต็มความกว้าง */
   .filter-tabs {
+    width: 100%;
+    flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    width: 100%;
-    padding-bottom: 4px;
+    padding: 4px;
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .filter-tabs::-webkit-scrollbar {
+    display: none;  /* Safari/Chrome */
+  }
+  
+  .filter-tab {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 8px 16px;
   }
   
   /* Buttons full width on certain places */
@@ -1616,6 +1847,7 @@ td.center { text-align: center; }
   .main { padding: 14px 12px; }
   
   .topbar h1 { font-size: 20px; }
+  .topbar { padding-right: 56px; }
   .kpi-card { padding: 16px 18px; }
   .kpi-value { font-size: 24px; }
   
@@ -1624,11 +1856,12 @@ td.center { text-align: center; }
   
   thead th, tbody td { padding: 8px 10px; }
   
-  /* Floating mobile toggle */
+  /* Floating mobile toggle - ปรับขนาดเล็กลง */
   .mobile-toggle {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
+    width: 42px;
+    height: 42px;
+    top: 60px;
+    right: 12px;
   }
 }
 
@@ -3350,12 +3583,21 @@ td.center { text-align: center; }
     <div class="page active" id="page-add">
       <div class="topbar">
         <div>
-          <h1>เพิ่มรายการค่าใช้จ่าย</h1>
-          <div class="subtitle">1 บันทึก = 1 เลขเอกสาร (เพิ่มรายการย่อยได้ในวันเดียวกัน)</div>
+          <h1 id="addPageTitle">เพิ่มรายการค่าใช้จ่าย</h1>
+          <div class="subtitle" id="addPageSubtitle">1 บันทึก = 1 เลขเอกสาร (เพิ่มรายการย่อยได้ในวันเดียวกัน)</div>
         </div>
         <div class="topbar-actions">
           <button class="mobile-toggle" onclick="toggleSidebar()" aria-label="เปิดเมนู"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="22" height="22"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
         </div>
+      </div>
+      
+      <!-- Edit Mode Banner -->
+      <div class="edit-mode-banner" id="editModeBanner">
+        <div class="info">
+          ✏️ <strong>กำลังแก้ไข:</strong> <span id="editingDocNo">—</span> 
+          <span style="color:var(--slate-600);font-weight:400;">(บันทึกแล้วจะทับข้อมูลเดิม)</span>
+        </div>
+        <button class="cancel-edit" onclick="cancelEditMode()">❌ ยกเลิกการแก้ไข</button>
       </div>
       
       <!-- Top info card -->
@@ -3479,7 +3721,7 @@ td.center { text-align: center; }
         <button class="btn btn-secondary" onclick="resetAllForm()" id="btnReset"><span id="btnResetIcon"></span> ล้างทั้งหมด</button>
         <button class="btn btn-primary" onclick="saveAllExpenses()" id="saveBtn">
           <span id="btnSaveIcon"></span>
-          บันทึกเอกสาร (รวมทุกรายการย่อย)
+          <span id="btnSaveLabel">บันทึกเอกสาร (รวมทุกรายการย่อย)</span>
         </button>
       </div>
     </div>
@@ -4265,6 +4507,112 @@ function resetAllForm() {
   showToast('ล้างฟอร์มแล้ว', 'success');
 }
 
+// ============ EDIT MODE STATE ============
+let editingDocNo = null; // null = add mode, "SSC-..." = edit mode
+
+function isEditMode() { return editingDocNo !== null; }
+
+function enterEditMode(docNo) {
+  editingDocNo = docNo;
+  document.getElementById('editModeBanner').classList.add('active');
+  document.getElementById('editingDocNo').textContent = docNo;
+  document.getElementById('addPageTitle').textContent = '✏️ แก้ไขรายการ';
+  document.getElementById('addPageSubtitle').textContent = 'แก้ไขข้อมูล แล้วกด "อัพเดทรายการ" จะทับของเดิม';
+  const lbl = document.getElementById('btnSaveLabel');
+  if (lbl) lbl.textContent = '💾 อัพเดทรายการ (ทับของเดิม)';
+}
+
+function cancelEditMode() {
+  if (isEditMode() && !confirm('ยกเลิกการแก้ไข? ข้อมูลที่กรอกจะหายไป')) return;
+  exitEditMode();
+  // Clear form
+  subItems = [];
+  subItemIdCounter = 0;
+  document.getElementById('fCustomer').value = '';
+  document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
+  addSubItem();
+}
+
+function exitEditMode() {
+  editingDocNo = null;
+  document.getElementById('editModeBanner').classList.remove('active');
+  document.getElementById('addPageTitle').textContent = 'เพิ่มรายการค่าใช้จ่าย';
+  document.getElementById('addPageSubtitle').textContent = '1 บันทึก = 1 เลขเอกสาร (เพิ่มรายการย่อยได้ในวันเดียวกัน)';
+  const lbl = document.getElementById('btnSaveLabel');
+  if (lbl) lbl.textContent = 'บันทึกเอกสาร (รวมทุกรายการย่อย)';
+}
+
+function editItem(id) {
+  // หา record จาก id ที่ส่งมา (อาจเป็น docNo ก็ได้)
+  const data = getData();
+  let record = data.find(d => d.id === id || d.docNo === id);
+  if (!record) {
+    showToast('ไม่พบรายการที่ต้องการแก้ไข', 'error');
+    return;
+  }
+  
+  const docNo = record.docNo;
+  // ดึงทุก sub-item ที่มี docNo เดียวกัน
+  const allSubs = data.filter(d => d.docNo === docNo);
+  if (allSubs.length === 0) {
+    showToast('ไม่พบรายการ', 'error');
+    return;
+  }
+  
+  // เข้า Edit Mode
+  enterEditMode(docNo);
+  
+  // โหลดข้อมูล header
+  document.getElementById('fDate').value = allSubs[0].issueDate;
+  document.getElementById('fCustomer').value = allSubs[0].customer || '';
+  
+  // โหลด sub-items
+  subItems = allSubs.map((r, idx) => {
+    subItemIdCounter++;
+    return {
+      id: subItemIdCounter,
+      type: r.type || 'เดินทาง',
+      desc: r.desc || '',
+      from: r.from || '',
+      to: r.to || '',
+      km: r.km || 0,
+      tollGo: r.tollGo || 0,
+      tollBack: r.tollBack || 0,
+      other: r.other || 0,
+      otherNote: r.otherNote || '',
+      attachments: r.attachments || []
+    };
+  });
+  renderSubItems();
+  
+  // ไปหน้า add
+  goToPage('add');
+  // Scroll to top
+  setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+  showToast(`✏️ เปิดแก้ไข: ${docNo}`, 'success');
+}
+
+function deleteItem(id) {
+  const data = getData();
+  let record = data.find(d => d.id === id || d.docNo === id);
+  if (!record) {
+    showToast('ไม่พบรายการ', 'error');
+    return;
+  }
+  
+  const docNo = record.docNo;
+  const allSubs = data.filter(d => d.docNo === docNo);
+  
+  const msg = `⚠️ ลบรายการ ${docNo}?\n\nจำนวน ${allSubs.length} รายการย่อย\nยอดรวม ฿${allSubs.reduce((s, r) => s + r.total, 0).toLocaleString('th-TH', {minimumFractionDigits: 2})}\n\nลบแล้วไม่สามารถกู้คืนได้!`;
+  
+  if (!confirm(msg)) return;
+  
+  const newData = data.filter(d => d.docNo !== docNo);
+  saveData(newData);
+  refreshAll();
+  showToast(`🗑️ ลบ ${docNo} เรียบร้อย`, 'success');
+}
+
 // ============ SAVE ============
 async function saveAllExpenses() {
   const date = document.getElementById('fDate').value;
@@ -4281,16 +4629,29 @@ async function saveAllExpenses() {
   }
   
   const customer = document.getElementById('fCustomer').value.trim();
-  const dateStr = date.replace(/-/g, '');
   const stored = getData();
-  const sameDayCount = stored.filter(d => d.docNo && d.docNo.startsWith(`SSC-${dateStr}`)).length;
-  const docNo = `SSC-${dateStr}-${String(sameDayCount + 1).padStart(3, '0')}`;
+  
+  let docNo;
+  if (isEditMode()) {
+    // Edit mode — ใช้ docNo เดิม + ลบ records เก่า
+    docNo = editingDocNo;
+    // ลบ records เก่าที่ docNo นี้ออกจาก stored
+    const filteredStored = stored.filter(d => d.docNo !== docNo);
+    stored.length = 0;
+    stored.push(...filteredStored);
+  } else {
+    // Add mode — gen เลขใหม่
+    const dateStr = date.replace(/-/g, '');
+    const sameDayCount = stored.filter(d => d.docNo && d.docNo.startsWith(`SSC-${dateStr}`)).length;
+    docNo = `SSC-${dateStr}-${String(sameDayCount + 1).padStart(3, '0')}`;
+  }
   
   // Build records (1 record per sub-item, all sharing same docNo)
   const records = validItems.map((item, idx) => {
     const fuel = item.km * CONFIG.FUEL_RATE;
     const total = fuel + item.tollGo + item.tollBack + item.other;
     return {
+      id: `${docNo}-${idx + 1}`,
       docNo,
       subItemNo: idx + 1,
       totalSubItems: validItems.length,
@@ -4337,10 +4698,15 @@ async function saveAllExpenses() {
   const totalAttachments = records.reduce((s, r) => s + r.attachmentCount, 0);
   
   // Show success
+  const wasEdit = isEditMode();
   document.getElementById('msDocNo').textContent = docNo;
   document.getElementById('msCustomer').textContent = customer || '—';
   document.getElementById('msAttach').textContent = `${records.length} รายการย่อย, ${totalAttachments} รูป`;
   document.getElementById('msTotal').textContent = `฿ ${grandTotal.toLocaleString('th-TH', {minimumFractionDigits: 2})}`;
+  
+  // Update modal title
+  const modalTitle = document.querySelector('#modalSuccess h2');
+  if (modalTitle) modalTitle.textContent = wasEdit ? '✏️ แก้ไขสำเร็จ' : '✓ บันทึกสำเร็จ';
   
   let locText = '';
   if (savedToApi) locText = '<small style="color:var(--green-600)">✓ บันทึกใน Google Sheets แล้ว</small>';
@@ -4354,6 +4720,7 @@ async function saveAllExpenses() {
   subItems = [];
   subItemIdCounter = 0;
   document.getElementById('fCustomer').value = '';
+  exitEditMode();  // ออกจาก edit mode (ถ้าอยู่)
   addSubItem();
   refreshAll();
 }
@@ -4723,28 +5090,92 @@ function renderListTable(container, items) {
     return;
   }
   
+  // Group sub-items by docNo
+  const grouped = {};
+  items.forEach(r => {
+    if (!grouped[r.docNo]) {
+      grouped[r.docNo] = {
+        docNo: r.docNo,
+        issueDate: r.issueDate,
+        customer: r.customer,
+        status: r.status,
+        subItems: [],
+        total: 0,
+        attachmentCount: 0
+      };
+    }
+    grouped[r.docNo].subItems.push(r);
+    grouped[r.docNo].total += r.total || 0;
+    grouped[r.docNo].attachmentCount += r.attachmentCount || 0;
+  });
+  
+  // Convert to array + sort by date desc
+  const groupedArr = Object.values(grouped).sort((a, b) => 
+    new Date(b.issueDate) - new Date(a.issueDate)
+  );
+  
   container.innerHTML = `
-    <table>
-      <thead><tr>
-        <th>เลขที่</th><th>วันที่</th><th>หน่วยงาน</th><th>ประเภท</th>
-        <th>รายละเอียด</th><th class="center">รูป</th>
-        <th class="num">ยอด</th><th class="center">สถานะ</th>
-      </tr></thead>
-      <tbody>
-        ${items.map(r => `
-          <tr>
-            <td><span class="doc-no">${r.docNo}</span></td>
-            <td>${formatDate(r.issueDate)}</td>
-            <td>${r.customer || '—'}</td>
-            <td>${r.type || '—'}</td>
-            <td>${truncate(r.desc, 50)}</td>
-            <td class="center">${r.attachmentCount > 0 ? `📎 ${r.attachmentCount}` : '—'}</td>
-            <td class="num amount">฿${r.total.toLocaleString('th-TH', {minimumFractionDigits: 2})}</td>
-            <td class="center">${statusBadge(r.status)}</td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
+    <!-- DESKTOP: Table View -->
+    <div class="list-desktop-view">
+      <table>
+        <thead><tr>
+          <th>เลขที่</th><th>วันที่</th><th>หน่วยงาน</th><th class="center">รายการย่อย</th>
+          <th>รายละเอียด (รวม)</th><th class="center">รูป</th>
+          <th class="num">ยอดรวม</th><th class="center">สถานะ</th>
+          <th class="center">ดำเนินการ</th>
+        </tr></thead>
+        <tbody>
+          ${groupedArr.map(g => {
+            const descs = g.subItems.map(s => s.desc).filter(d => d).join(', ');
+            return `
+            <tr>
+              <td><span class="doc-no">${g.docNo}</span></td>
+              <td>${formatDate(g.issueDate)}</td>
+              <td>${g.customer || '—'}</td>
+              <td class="center">${g.subItems.length}</td>
+              <td>${truncate(descs, 50)}</td>
+              <td class="center">${g.attachmentCount > 0 ? `📎 ${g.attachmentCount}` : '—'}</td>
+              <td class="num amount">฿${g.total.toLocaleString('th-TH', {minimumFractionDigits: 2})}</td>
+              <td class="center">${statusBadge(g.status)}</td>
+              <td class="center">
+                <button class="action-btn edit" onclick="editItem('${g.docNo}')" title="แก้ไข">✏️</button>
+                <button class="action-btn delete" onclick="deleteItem('${g.docNo}')" title="ลบ">🗑️</button>
+              </td>
+            </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- MOBILE: Card View -->
+    <div class="list-mobile-view">
+      ${groupedArr.map(g => {
+        const descs = g.subItems.map(s => s.desc).filter(d => d).join(', ');
+        return `
+        <div class="list-card-item">
+          <div class="list-card-top">
+            <span class="doc-no">${g.docNo}</span>
+            ${statusBadge(g.status)}
+          </div>
+          <div class="list-card-customer">${g.customer || '— ไม่ระบุหน่วยงาน —'}</div>
+          <div class="list-card-desc">${truncate(descs, 70) || '—'}</div>
+          <div class="list-card-meta">
+            <span>📅 ${formatDate(g.issueDate)}</span>
+            <span>📋 ${g.subItems.length} รายการย่อย</span>
+            ${g.attachmentCount > 0 ? `<span>📎 ${g.attachmentCount} รูป</span>` : ''}
+          </div>
+          <div class="list-card-bottom">
+            <div class="list-card-amount">฿${g.total.toLocaleString('th-TH', {minimumFractionDigits: 2})}</div>
+            <div class="list-card-actions">
+              <button class="action-btn edit" onclick="editItem('${g.docNo}')" title="แก้ไข">✏️ แก้ไข</button>
+              <button class="action-btn delete" onclick="deleteItem('${g.docNo}')" title="ลบ">🗑️</button>
+            </div>
+          </div>
+        </div>
+        `;
+      }).join('')}
+    </div>
   `;
 }
 

@@ -1699,9 +1699,21 @@ td.center { text-align: center; }
   .topbar h1 { font-size: 22px; }
   .topbar .subtitle { font-size: 12px; }
   
-  /* ซ่อน topbar-actions บนมือถือ (ปุ่มทั้งหมดจัดเป็น floating แล้ว) */
+  /* ซ่อน "ปุ่มอื่นๆ" ใน topbar-actions บนมือถือ ยกเว้น mobile-toggle 
+     (mobile-toggle ใช้ position: fixed → ไม่ได้รับผลจาก display: none ของพ่อ
+      แต่บน iOS Safari บาง version อาจ inherit → set ชัดเจน) */
   .topbar-actions {
+    display: contents;  /* พ่อหาย แต่ลูก (mobile-toggle) ยังแสดง */
+  }
+  
+  /* ซ่อนปุ่มอื่นๆ ที่อาจอยู่ใน topbar-actions (เช่น "+ เพิ่มรายการ") */
+  .topbar-actions > .btn {
     display: none;
+  }
+  
+  /* mobile-toggle ใช้ position fixed → แสดงตลอด */
+  .mobile-toggle {
+    display: grid !important;
   }
   
   /* ===== INPUT FIELDS ===== */
@@ -1723,15 +1735,36 @@ td.center { text-align: center; }
     min-height: 46px;  /* เท่า input อื่น */
   }
   
-  /* KPI: 1 column */
+  /* KPI: 1 column - center alignment บนมือถือ */
   .kpi-grid { 
     grid-template-columns: 1fr;
     gap: 12px;
     margin-bottom: 20px;
   }
   
-  .kpi-card { padding: 18px 20px; }
-  .kpi-value { font-size: 26px; }
+  .kpi-card { 
+    padding: 22px 20px;
+    text-align: center;  /* ✅ จัดทุกอย่างตรงกลาง */
+  }
+  
+  /* ขยับไอคอนมาตรงกลาง */
+  .kpi-icon {
+    margin: 0 auto 14px auto;  /* ✅ center horizontally */
+  }
+  
+  /* Label + Value center */
+  .kpi-label {
+    text-align: center;
+  }
+  
+  .kpi-value { 
+    font-size: 28px;
+    text-align: center;
+  }
+  
+  .kpi-meta {
+    justify-content: center;
+  }
   
   /* Period compare card stack */
   .period-compare-card {
@@ -1747,10 +1780,25 @@ td.center { text-align: center; }
     border-bottom: 1px solid var(--cream-200);
   }
   
-  /* Dash cards compact */
-  .dash-card { padding: 20px 22px; }
+  /* Dash cards compact - ลด padding บนมือถือเพื่อให้ chart มีพื้นที่ */
+  .dash-card { 
+    padding: 18px 14px;  /* ลด padding ซ้ายขวา ให้ chart กว้างขึ้น */
+    overflow: hidden;    /* ป้องกัน chart ล้นขอบ */
+  }
   .dash-card h3 { font-size: 16px; }
-  .chart-container { height: 240px; }
+  
+  /* Chart container - responsive */
+  .chart-container { 
+    height: 260px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .chart-container canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
   
   /* Form card compact */
   .form-card { padding: 22px 20px; }
@@ -4900,6 +4948,9 @@ function renderMonthlyChart(data, year) {
   const borderColors = monthlyData.map((_, i) => i === currentMonth ? '#d4a574' : '#1e3a5f');
   
   if (chartMonthly) chartMonthly.destroy();
+  
+  const isMobile = window.innerWidth <= 768;
+  
   chartMonthly = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -4919,6 +4970,14 @@ function renderMonthlyChart(data, year) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      layout: {
+        padding: {
+          left: isMobile ? 0 : 10,
+          right: isMobile ? 5 : 10,
+          top: 10,
+          bottom: 0
+        }
+      },
       plugins: {
         legend: { display: false },
         tooltip: {
@@ -4935,17 +4994,26 @@ function renderMonthlyChart(data, year) {
         y: {
           beginAtZero: true,
           ticks: {
-            font: { family: 'IBM Plex Sans Thai', size: 11 },
-            color: '#94a3b8',
-            callback: v => '฿' + (v >= 1000 ? (v/1000).toFixed(0) + 'k' : v)
+            font: { family: 'IBM Plex Sans Thai', size: isMobile ? 10 : 11 },
+            color: '#64748b',
+            padding: isMobile ? 4 : 8,
+            maxTicksLimit: isMobile ? 5 : 8,
+            callback: v => {
+              if (v >= 1000000) return '฿' + (v/1000000).toFixed(1) + 'M';
+              if (v >= 1000) return '฿' + (v/1000).toFixed(0) + 'k';
+              return '฿' + v;
+            }
           },
           grid: { color: 'rgba(0,0,0,0.04)', drawBorder: false }
         },
         x: {
           grid: { display: false },
           ticks: {
-            font: { family: 'IBM Plex Sans Thai', size: 11 },
-            color: '#64748b'
+            font: { family: 'IBM Plex Sans Thai', size: isMobile ? 9 : 11 },
+            color: '#64748b',
+            maxRotation: isMobile ? 45 : 0,
+            minRotation: isMobile ? 45 : 0,
+            autoSkip: false
           }
         }
       }

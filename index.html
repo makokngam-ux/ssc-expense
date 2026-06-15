@@ -2193,6 +2193,7 @@ td.center { text-align: center; }
   }
 }
 
+/* (เลิกใช้) drawer แบบเลื่อนออกข้าง — ปัจจุบันใช้ Bottom Nav (v6.54) แทน
 @media (max-width: 768px) {
   .sidebar {
     left: -280px !important;
@@ -2204,6 +2205,7 @@ td.center { text-align: center; }
     transform: none !important;
   }
 }
+*/
 
 /* ============ MOBILE BACKDROP ============ */
 .sidebar-backdrop {
@@ -2591,7 +2593,7 @@ td.center { text-align: center; }
 .company-info .tax-id {
   font-size: 10px;
   color: var(--slate-700);
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .doc-title-block {
@@ -2617,14 +2619,14 @@ td.center { text-align: center; }
 .doc-info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3px 24px;
-  margin-bottom: 10px;
+  gap: 2px 24px;
+  margin-bottom: 5px;
   font-size: 11.5px;
-  padding: 8px 14px;
+  padding: 5px 14px;
   background: var(--slate-50);
   border-left: 3px solid var(--gold-500);
   border-radius: 0 6px 6px 0;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 .doc-info-grid .item {
@@ -2656,8 +2658,8 @@ td.center { text-align: center; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 8px;
-  margin-bottom: 4px;
+  margin-top: 4px;
+  margin-bottom: 2px;
 }
 
 .note-box, .bank-box {
@@ -2729,8 +2731,8 @@ td.center { text-align: center; }
 }
 
 .bank-box .filled-value {
-  font-weight: 600;
-  color: var(--navy-900);
+  font-weight: 500;
+  color: #1e3a8a;   /* น้ำเงินปากกา — สีเดียวกับข้อความที่กรอกในตาราง (.data-row td) */
   border-bottom: 1px solid var(--slate-300);
   padding: 0 4px 1px;
   min-width: 60px;
@@ -2741,7 +2743,7 @@ td.center { text-align: center; }
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 24px;
-  margin-top: 16px;
+  margin-top: 8px;
   font-size: 11px;
 }
 
@@ -2788,19 +2790,35 @@ td.center { text-align: center; }
 
 .receipt-table th.toll-group { background: var(--slate-100); }
 
+/* ตัวนับจำนวนตัวอักษรในช่องรายละเอียด */
+.char-count {
+  float: right;
+  font-weight: 400;
+  color: var(--slate-400);
+  font-size: 11px;
+}
+
 .receipt-table td.desc {
   text-align: left;
   font-size: 9px;
   line-height: 1.3;
-  white-space: nowrap;  /* ไม่ wrap บนหน้าจอ */
+  white-space: normal;          /* wrap ให้พอดีช่อง (เหมือนตอนพิมพ์) */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
-/* Text columns: ต้นทาง / ปลายทาง — nowrap บนหน้าจอเช่นกัน */
+/* Text columns: ต้นทาง / ปลายทาง — wrap ให้พอดีช่อง ไม่ล้นทับช่องอื่น
+   ฟอนต์เล็กลง (8px) เพื่อให้ข้อความ 40 ตัวอักษรลงพอดี ~2 บรรทัด */
 .receipt-table tbody td:nth-child(3),
 .receipt-table tbody td:nth-child(4) {
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   text-align: left;
-  padding-left: 6px;
+  padding-left: 4px;
+  padding-right: 4px;
+  font-size: 7.2px;
+  line-height: 1.18;
 }
 
 /* Wrapper allows horizontal scroll on screen */
@@ -2865,7 +2883,7 @@ td.center { text-align: center; }
 
 /* Empty row smaller */
 .empty-row td {
-  height: 20px;
+  height: 15px;
   color: var(--slate-400);
   font-size: 9px;
 }
@@ -2920,12 +2938,19 @@ td.center { text-align: center; }
 .receipt-table tbody tr.total-row td.num {
   color: #1e40af;
   font-weight: 700;
+  text-align: center;
 }
 
 /* แถว "รวมทั้งสิ้น" — น้ำเงินเข้มสุด + เน้น */
 .receipt-table tbody tr.grand-total-row td.num {
   color: #1e3a8a;
   font-weight: 800;
+  text-align: center;
+}
+
+.receipt-table tbody tr.total-row td:last-child,
+.receipt-table tbody tr.grand-total-row td:last-child {
+  text-align: center;
 }
 
 /* ข้อความ "รวมทั้งสิ้น (ตัวอักษร)" — สีน้ำเงินเข้ม */
@@ -2956,7 +2981,7 @@ td.center { text-align: center; }
 }
 
 .sig-role {
-  margin-bottom: 36px;
+  margin-bottom: 22px;
   color: var(--slate-700);
   font-weight: 500;
 }
@@ -3557,17 +3582,7 @@ td.center { text-align: center; }
 
 /* Density indicator (แสดงโหมดปัจจุบันบนหน้าจอ — ซ่อนตอน print) */
 .density-badge {
-  position: absolute;
-  top: 8px;
-  right: 12px;
-  font-size: 10px;
-  color: var(--slate-500);
-  background: var(--cream-50);
-  border: 1px solid var(--gold-500);
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-  z-index: 5;
+  display: none !important;
 }
 
 @media print {
@@ -3575,7 +3590,7 @@ td.center { text-align: center; }
 }
 
 @media print {
-  @page { margin: 0.55cm; size: A4 portrait; }
+  @page { margin: 0.55cm; size: A4 landscape; }
   
   body { background: white; }
   .sidebar, .sidebar-backdrop, .topbar, .receipt-controls, .mobile-toggle { display: none !important; }
@@ -3611,7 +3626,16 @@ td.center { text-align: center; }
     word-break: break-word;
     overflow-wrap: anywhere;
   }
-  
+
+  /* Print: ฟอนต์ช่อง ต้นทาง/ปลายทาง เล็กลงให้ 40 ตัวอักษรลงพอดี ~2 บรรทัด */
+  .receipt-table tbody td:nth-child(3),
+  .receipt-table tbody td:nth-child(4) {
+    font-size: 6.8px !important;
+    line-height: 1.12 !important;
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+  }
+
   /* Print: ตัวเลขใน column .num ต้องไม่ wrap ที่ comma เด็ดขาด */
   .receipt-table td.num {
     white-space: nowrap !important;
@@ -3647,7 +3671,8 @@ td.center { text-align: center; }
     page-break-inside: avoid;
   }
   
-  .attachments-page { display: block; }
+  .attachments-page:not(:empty) { display: block; }
+  .attachments-page:empty { display: none !important; }
   
   /* Blank Pages: A4 portrait — แยกออกจาก landscape ของใบเบิก */
   .blank-pages-section { display: block; }
@@ -3676,7 +3701,7 @@ td.center { text-align: center; }
   }
   
   .blank-page-area {
-    min-height: 22cm; /* fills A4 portrait area after header */
+    min-height: 13cm; /* fills A4 landscape area after header (กันล้นไปหน้า 2) */
   }
   
   /* Bank slip pages: A4 portrait, 2x3 grid */
@@ -3700,12 +3725,33 @@ td.center { text-align: center; }
   }
   
   .bank-slip-grid {
-    min-height: 23cm;
+    min-height: 13cm;
   }
 }
 .settings-section {
   margin-bottom: 24px;
 }
+
+/* ===== การ์ดตั้งค่าแบบย่อ/ขยาย (collapsible) ===== */
+.settings-collapsible > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  user-select: none;
+}
+.settings-collapsible > summary::-webkit-details-marker { display: none; }
+.settings-collapsible > summary h3 { margin: 0; }
+.settings-collapsible .settings-chevron {
+  font-size: 20px;
+  color: var(--slate-400);
+  transition: transform 0.2s ease;
+  line-height: 1;
+}
+.settings-collapsible[open] > summary { margin-bottom: 16px; }
+.settings-collapsible[open] .settings-chevron { transform: rotate(180deg); }
 
 .settings-section h4 {
   font-family: 'Inter', 'IBM Plex Sans Thai', sans-serif;
@@ -6483,14 +6529,14 @@ body {
   border-radius: 12px;
   box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
   display: grid;
-  gap: 12px;
+  gap: 10px;
   margin: -4px 0 16px;
-  padding: 14px;
+  padding: 10px;
 }
 
 #page-add .add-mini-summary {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
@@ -6500,9 +6546,10 @@ body {
   border: 1px solid rgba(226, 232, 240, 0.92);
   border-radius: 10px;
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  min-height: 56px;
   min-width: 0;
-  padding: 11px 12px;
+  padding: 8px 10px;
 }
 
 #page-add .mini-summary-item > span {
@@ -6512,9 +6559,9 @@ body {
   color: #0f766e;
   display: inline-flex;
   flex: 0 0 auto;
-  height: 34px;
+  height: 30px;
   justify-content: center;
-  width: 34px;
+  width: 30px;
 }
 
 #page-add .mini-summary-item.strong {
@@ -6529,7 +6576,7 @@ body {
 
 #page-add .mini-summary-item .label {
   color: #64748b;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   line-height: 1.2;
 }
@@ -6537,7 +6584,7 @@ body {
 #page-add .mini-summary-item .value {
   color: #0f172a;
   font-family: var(--font-number);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   line-height: 1.35;
   margin-top: 2px;
@@ -6547,6 +6594,11 @@ body {
 #page-add .mini-summary-item.strong .label,
 #page-add .mini-summary-item.strong .value {
   color: #ffffff;
+}
+
+#page-add .sub-item-card.invalid {
+  border-color: rgba(239, 68, 68, 0.72) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.10), 0 16px 34px rgba(15, 23, 42, 0.08);
 }
 
 #page-add .quick-actions {
@@ -6568,8 +6620,8 @@ body {
   font-weight: 800;
   gap: 7px;
   justify-content: center;
-  min-height: 40px;
-  padding: 9px 10px;
+  min-height: 38px;
+  padding: 8px 10px;
   transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease;
 }
 
@@ -6653,12 +6705,33 @@ body {
   }
 
   #page-add .add-workbench {
-    padding: 12px;
+    gap: 8px;
+    padding: 8px;
   }
 
   #page-add .add-mini-summary,
   #page-add .quick-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #page-add .mini-summary-item {
+    min-height: 50px;
+    padding: 7px 8px;
+  }
+
+  #page-add .mini-summary-item > span {
+    height: 28px;
+    width: 28px;
+  }
+
+  #page-add .mini-summary-item .value {
+    font-size: 13px;
+  }
+
+  #page-add .quick-action-btn {
+    font-size: 12px;
+    min-height: 36px;
+    padding: 7px 8px;
   }
 }
 
@@ -6719,7 +6792,7 @@ body {
   }
 
   .main {
-    padding-bottom: calc(96px + env(safe-area-inset-bottom));
+    padding-bottom: calc(112px + env(safe-area-inset-bottom));
   }
 
   .sidebar {
@@ -6727,21 +6800,21 @@ body {
     background:
       linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.99));
     border-top: 1px solid rgba(45, 212, 191, 0.22);
-    bottom: 0;
+    bottom: 0 !important;
     box-shadow: 0 -16px 34px rgba(2, 6, 23, 0.22);
     display: grid;
     gap: 4px;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    height: calc(72px + env(safe-area-inset-bottom));
-    left: 0;
+    height: calc(88px + env(safe-area-inset-bottom)) !important;
+    left: 0 !important;
     overflow: visible;
-    padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
-    position: fixed;
-    right: 0;
-    top: auto;
+    padding: 8px 6px calc(10px + env(safe-area-inset-bottom));
+    position: fixed !important;
+    right: 0 !important;
+    top: auto !important;
     transform: none !important;
     transition: none;
-    width: 100%;
+    width: 100% !important;
     z-index: 120;
   }
 
@@ -6774,13 +6847,13 @@ body {
     flex-direction: column;
     font-size: 10px;
     font-weight: 700;
-    gap: 4px;
-    justify-content: center;
-    line-height: 1.15;
+    gap: 5px;
+    justify-content: flex-start;
+    line-height: 1.25;
     margin: 0;
     min-width: 0;
-    overflow: hidden;
-    padding: 7px 3px 6px;
+    overflow: visible;
+    padding: 6px 2px;
     text-align: center;
     transform: none !important;
   }
@@ -6794,15 +6867,16 @@ body {
     background: rgba(255,255,255,0.08);
     border-radius: 10px;
     display: grid;
-    height: 30px;
+    height: 28px;
     margin: 0;
     place-items: center;
-    width: 30px;
+    width: 28px;
+    flex-shrink: 0;
   }
 
   .nav-item .icon svg {
-    height: 17px;
-    width: 17px;
+    height: 16px;
+    width: 16px;
   }
 
   .nav-item > span:last-child {
@@ -6811,6 +6885,8 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    line-height: 1.3;
+    padding-bottom: 1px;
   }
 
   .nav-label[data-mobile-label] {
@@ -6844,6 +6920,42 @@ body {
     padding-right: 16px;
   }
 }
+
+/* ============ MOBILE: หน้า Print/ใบเบิก (v6.56) ============ */
+@media (max-width: 768px) {
+  /* 1) แสดงปุ่ม Print บนมือถือ (ปกติปุ่มใน topbar-actions ถูกซ่อน) */
+  #page-receipt .topbar-actions { display: flex !important; }
+  #page-receipt .topbar-actions > .btn {
+    display: inline-flex !important;
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  /* ตอนนี้ย่อพอดีจอแล้ว ไม่ต้องเลื่อนซ้าย-ขวา — ซ่อนข้อความนั้น */
+  #page-receipt #receiptStats > span:last-child,
+  #page-receipt #receiptStats > span:nth-last-child(2) {
+    display: none;
+  }
+}
+/* ป้ายตัวอย่างย่อ (ใส่โดย JS เฉพาะตอน scale < 100%) — ซ่อนตอนพิมพ์ */
+.receipt-preview-hint {
+  display: none !important;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--slate-500);
+  background: var(--cream-100, #faf7f0);
+  border: 1px dashed var(--slate-300);
+  border-radius: 8px;
+  padding: 7px 10px;
+  margin-bottom: 10px;
+}
+@media print { .receipt-preview-hint { display: none !important; } }
+/* ใบเบิกย่อพอดีจอเสมอ ไม่มีการเลื่อนซ้าย-ขวาแล้ว → ซ่อนข้อความ "เลื่อนซ้าย-ขวาดูได้" ทุกขนาดจอ */
+#page-receipt #receiptStats > span:last-child,
+#page-receipt #receiptStats > span:nth-last-child(2) { display: none; }
 
 @media print {
   body {
@@ -6906,7 +7018,7 @@ body {
 @media print {
   @page {
     margin: 0.55cm;
-    size: A4 portrait;
+    size: A4 landscape;
   }
 
   html,
@@ -6987,11 +7099,11 @@ body {
   }
 }
 
-/* ============ RECEIPT PORTRAIT PRINT (v6.56) ============ */
+/* ============ RECEIPT LANDSCAPE PRINT BASE (v6.56) ============ */
 @media print {
   @page {
     margin: 0.55cm;
-    size: A4 portrait;
+    size: A4 landscape;
   }
 
   .receipt-paper {
@@ -7020,6 +7132,10 @@ body {
   .company-info .tax-id {
     font-size: 7.6px !important;
     line-height: 1.25 !important;
+  }
+
+  .company-info .tax-id {
+    font-weight: 400 !important;
   }
 
   .doc-title-block {
@@ -7132,6 +7248,7 @@ body {
   }
 
   .bank-box .filled-value {
+    font-weight: 500 !important;
     min-width: 38px !important;
     padding: 0 2px !important;
   }
@@ -7147,7 +7264,7 @@ body {
   }
 }
 
-/* ============ RECEIPT UNIFIED SCREEN PREVIEW (v6.57) ============ */
+/* ============ RECEIPT UNIFIED SCREEN PREVIEW (v6.58 — A4 LANDSCAPE) ============ */
 @media screen {
   #page-receipt #receiptContent,
   #page-receipt .blank-pages-preview,
@@ -7160,6 +7277,13 @@ body {
     margin-top: 28px;
   }
 
+  /* กันแถบเลื่อนแนวนอน: หน้ากระดาษ render เต็ม 297mm แล้วถูก JS ย่อด้วย transform
+     ส่วนที่ล้นออกนอกจอ (ก่อน scale) ให้ตัดทิ้ง */
+  #page-receipt {
+    overflow-x: hidden;
+  }
+
+  /* การ์ดกระดาษ (พื้นหลัง/เงา/ขอบ) ใช้ร่วมกัน */
   #page-receipt .receipt-paper,
   #page-receipt .blank-pages-preview .blank-page,
   #page-receipt .bank-slip-page {
@@ -7169,41 +7293,419 @@ body {
     box-shadow: 0 16px 38px rgba(15, 23, 42, 0.10);
     box-sizing: border-box;
     margin: 0 auto 28px !important;
-    max-width: 210mm;
-    min-height: 297mm;
     overflow: hidden;
-    transform: none !important;
-    transform-origin: center top !important;
-    width: min(100%, 210mm);
   }
 
+  /* ใบเบิก = A4 แนวนอน (กว้าง 297mm × สูง 210mm) — render เต็มขนาดจริง
+     แล้วใช้ JS (fitReceiptPreview) ย่อ scale ให้พอดีความกว้างจอเมื่อจำเป็น */
   #page-receipt .receipt-paper {
-    padding: 12mm;
+    width: 297mm;
+    max-width: none;
+    min-height: 210mm;
+    padding: 5mm 12mm;
+    transform-origin: top left;
   }
 
+  /* หน้าเปล่า/สลิป/เอกสารแนบ = A4 แนวนอนเต็มขนาดจริง (297mm) แล้ว JS ย่อ scale ให้พอดีจอ
+     เหมือนใบเบิก — ทุกหน้าเป็นแนวนอนหมด */
   #page-receipt .blank-pages-preview .blank-page,
   #page-receipt .bank-slip-page {
+    width: 297mm;
+    max-width: none;
+    min-height: 210mm;
     padding: 12mm 12mm 10mm;
+    transform-origin: top left;
   }
 
   #page-receipt .blank-pages-preview-info,
   #page-receipt .bank-slip-info {
     margin: 0 auto 18px;
-    max-width: 210mm;
-    width: min(100%, 210mm);
+    max-width: 297mm;
+    width: min(100%, 297mm);
   }
 
   #page-receipt .blank-page-area {
-    min-height: 218mm;
+    min-height: 150mm;
   }
 
   #page-receipt .bank-slip-grid {
-    min-height: 224mm;
+    min-height: 155mm;
   }
 
   #page-receipt .receipt-table {
     table-layout: fixed;
     width: 100%;
+  }
+}
+
+/* ============ PRINT: บังคับทุกหน้าให้พอดี 1 หน้า A4 แนวนอน (v6.59) ============
+   ลบความสูงแบบแนวตั้งเก่า (297mm / 100vh) ที่ยังค้างอยู่ → กันเอกสารบานไปหลายหน้า */
+@media print {
+  @page { size: A4 landscape; margin: 0.55cm; }
+
+  #page-receipt .receipt-paper,
+  #page-receipt .blank-pages-preview .blank-page,
+  #page-receipt .bank-slip-page,
+  #page-receipt .attachments-page {
+    min-height: 0 !important;
+    height: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  /* พื้นที่แปะสลิปในหน้าเปล่า — สูงพอใช้ แต่ไม่ดันเกิน 1 หน้าแนวนอน */
+  #page-receipt .blank-page-area { min-height: 12.5cm !important; }
+  #page-receipt .bank-slip-grid { min-height: 12.5cm !important; }
+}
+
+/* ============ RECEIPT LANDSCAPE FINAL TUNING (v6.60) ============ */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 0.55cm;
+  }
+
+  #page-receipt .receipt-paper {
+    padding: 0 !important;
+  }
+
+  #page-receipt .receipt-header {
+    gap: 12px !important;
+    margin-bottom: 6px !important;
+    padding-bottom: 8px !important;
+  }
+
+  #page-receipt .receipt-logo {
+    height: 46px !important;
+    width: 78px !important;
+  }
+
+  #page-receipt .company-info .name-th {
+    font-size: 15px !important;
+  }
+
+  #page-receipt .company-info .name-en,
+  #page-receipt .company-info .address,
+  #page-receipt .company-info .contact,
+  #page-receipt .company-info .tax-id {
+    font-size: 9px !important;
+    line-height: 1.28 !important;
+  }
+
+  #page-receipt .company-info .tax-id {
+    font-weight: 400 !important;
+  }
+
+  #page-receipt .doc-title-block {
+    margin: 6px 0 !important;
+  }
+
+  #page-receipt .doc-title-block h2 {
+    font-size: 15px !important;
+  }
+
+  #page-receipt .doc-title-block .en {
+    font-size: 8.5px !important;
+  }
+
+  #page-receipt .doc-info-grid {
+    font-size: 9.4px !important;
+    gap: 2px 18px !important;
+    line-height: 1.3 !important;
+    margin-bottom: 8px !important;
+    padding: 6px 10px !important;
+  }
+
+  #page-receipt .receipt-table {
+    font-size: 8px !important;
+    line-height: 1.16 !important;
+  }
+
+  #page-receipt .receipt-table th,
+  #page-receipt .receipt-table td {
+    font-size: 8px !important;
+    line-height: 1.16 !important;
+    padding: 2.5px 2px !important;
+  }
+
+  #page-receipt .receipt-table th {
+    font-size: 7.7px !important;
+    padding: 3px 2px !important;
+  }
+
+  #page-receipt .receipt-table td.desc {
+    font-size: 7.8px !important;
+  }
+
+  #page-receipt .receipt-table tr.total-row td,
+  #page-receipt .receipt-table tr.grand-total-row td {
+    font-size: 8px !important;
+    padding: 3px 2px !important;
+  }
+
+  #page-receipt .receipt-table .slip-thumb {
+    height: 16px !important;
+    width: 16px !important;
+  }
+
+  #page-receipt .receipt-footer-grid {
+    gap: 8px !important;
+    margin: 8px 0 4px !important;
+  }
+
+  #page-receipt .note-box,
+  #page-receipt .bank-box {
+    font-size: 8.8px !important;
+    min-height: 52px !important;
+    padding: 5px 8px !important;
+  }
+
+  #page-receipt .note-box .label,
+  #page-receipt .bank-box .label {
+    font-size: 9px !important;
+  }
+
+  #page-receipt .note-box .note-text,
+  #page-receipt .bank-box .row {
+    font-size: 8.4px !important;
+  }
+
+  #page-receipt .bank-box .row .checkbox {
+    height: 10px !important;
+    width: 10px !important;
+  }
+
+  #page-receipt .bank-box .filled-value {
+    font-weight: 500 !important;
+  }
+
+  #page-receipt .signatures-3 {
+    font-size: 9px !important;
+    gap: 18px !important;
+    margin-top: 18px !important;
+  }
+
+  #page-receipt .sig-line {
+    height: 30px !important;
+  }
+}
+
+/* ============ RECEIPT PRINT CLEANUP (v6.61) ============ */
+@media print {
+  #page-receipt .density-badge,
+  #page-receipt .receipt-preview-hint,
+  #page-receipt .blank-pages-preview-info,
+  #page-receipt .bank-slip-info,
+  #printTipBanner {
+    display: none !important;
+  }
+
+  #page-receipt .attachments-page:empty,
+  #page-receipt .bank-slip-section:empty,
+  #page-receipt .blank-pages-preview:empty {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    page-break-before: auto !important;
+  }
+
+  #page-receipt .attachments-page:not(:empty) {
+    display: block !important;
+  }
+
+  #page-receipt .receipt-paper {
+    page-break-after: auto !important;
+  }
+
+  #page-receipt .attachments-page,
+  #page-receipt .blank-pages-preview .blank-page,
+  #page-receipt .bank-slip-page {
+    page-break-before: always !important;
+    page-break-after: always !important;
+  }
+}
+
+/* ============ RECEIPT PRINT BREAK FIX (v6.62) ============ */
+@media print {
+  #page-receipt .receipt-paper {
+    page-break-after: auto !important;
+    break-after: auto !important;
+    padding-left: 1mm !important;
+    padding-right: 1mm !important;
+  }
+
+  #page-receipt .receipt-header {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  #page-receipt .attachments-page:not(:empty),
+  #page-receipt .blank-pages-preview .blank-page,
+  #page-receipt .bank-slip-page {
+    break-before: page !important;
+    page-break-before: always !important;
+  }
+
+  #page-receipt .attachments-page:empty {
+    break-before: auto !important;
+    break-after: auto !important;
+    page-break-before: auto !important;
+    page-break-after: auto !important;
+  }
+}
+
+/* ============ RECEIPT SINGLE PAGE PRINT FIX (v6.63) ============ */
+@media print {
+  html,
+  body,
+  .app,
+  .main,
+  #page-receipt {
+    background: #ffffff !important;
+    background-image: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .app {
+    display: block !important;
+  }
+
+  .main {
+    margin: 0 !important;
+    max-width: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .page {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .page:not(#page-receipt) {
+    display: none !important;
+  }
+
+  #page-receipt {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  #page-receipt::before,
+  #page-receipt::after,
+  .app::before,
+  .app::after,
+  .main::before,
+  .main::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  #page-receipt .attachments-page:empty,
+  #page-receipt .bank-slip-section:empty,
+  #page-receipt .blank-pages-preview:empty {
+    break-before: auto !important;
+    break-after: auto !important;
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    page-break-after: auto !important;
+    page-break-before: auto !important;
+  }
+}
+
+/* ============ SAFARI BACKGROUND GRAPHICS PRINT GUARD (v6.64) ============ */
+@media print {
+  *,
+  *::before,
+  *::after {
+    box-shadow: none !important;
+    filter: none !important;
+    text-shadow: none !important;
+  }
+
+  html,
+  body,
+  .app,
+  .main,
+  .page,
+  #page-receipt,
+  #receiptContent {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+  }
+
+  #page-receipt *::before,
+  #page-receipt *::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  #page-receipt .receipt-paper,
+  #page-receipt .receipt-header,
+  #page-receipt .doc-title-block,
+  #page-receipt .doc-info-grid,
+  #page-receipt .receipt-table-scroll,
+  #page-receipt .receipt-footer-grid,
+  #page-receipt .note-box,
+  #page-receipt .bank-box,
+  #page-receipt .signatures-3 {
+    break-before: auto !important;
+    break-after: auto !important;
+    page-break-before: auto !important;
+    page-break-after: auto !important;
+  }
+
+  #page-receipt .receipt-paper {
+    display: block !important;
+    margin: 0 !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  #page-receipt .doc-info-grid,
+  #page-receipt .receipt-table th,
+  #page-receipt .receipt-table th.toll-group {
+    background: #f8fafc !important;
+    background-image: none !important;
+  }
+
+  #page-receipt .receipt-table tr.total-row,
+  #page-receipt .receipt-table tr.grand-total-row {
+    background: #ecfeff !important;
+    background-image: none !important;
+  }
+
+  #page-receipt .receipt-table tbody tr.data-row,
+  #page-receipt .receipt-table tbody tr.data-row:nth-child(odd),
+  #page-receipt .receipt-table tbody tr.data-row:nth-child(even) {
+    background: #ffffff !important;
+    background-image: none !important;
+  }
+
+  #page-receipt .receipt-table tbody td:nth-child(3),
+  #page-receipt .receipt-table tbody td:nth-child(4) {
+    font-size: 6.8px !important;
+    line-height: 1.12 !important;
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+  }
+
+  #page-receipt .receipt-table tbody tr.total-row td.num,
+  #page-receipt .receipt-table tbody tr.grand-total-row td.num,
+  #page-receipt .receipt-table tbody tr.total-row td:last-child,
+  #page-receipt .receipt-table tbody tr.grand-total-row td:last-child {
+    text-align: center !important;
   }
 }
 </style>
@@ -7427,7 +7929,7 @@ body {
           </div>
           <div>
             <label><span id="formCustomerIcon"></span> หน่วยงาน / โครงการ</label>
-            <input type="text" id="fCustomer" list="customerList" placeholder="เลือกหรือพิมพ์ เช่น MEA, อบรม SolarEdge, ประชุมภายใน...">
+            <input type="text" id="fCustomer" maxlength="60" list="customerList" placeholder="เลือกหรือพิมพ์ เช่น MEA, อบรม SolarEdge, ประชุมภายใน...">
             <datalist id="customerList">
               <!-- ลูกค้า/หน่วยงานหลัก -->
               <option value="การไฟฟ้านครหลวง (MEA)">
@@ -7444,6 +7946,7 @@ body {
               <option value="บริษัท อิเรเดี๊ยน (IRR)">
               <option value="บริษัท เอนเนอร์จี ฟอร์ ออลล์">
               <!-- งานภายใน/อบรม -->
+              <option value="ประชุม">
               <option value="ประชุมภายใน SSC">
               <option value="อบรม SolarEdge">
               <option value="อบรม KSTAR">
@@ -7503,7 +8006,7 @@ body {
       <datalist id="placesList">
         <option value="ออฟฟิศ SSC">
         <option value="คลังสินค้า SSC">
-        <option value="บางลำพู เขตพระนคร กทม.">
+        <option value="บางลำพู เขตพระนคร">
         <option value="การไฟฟ้านครหลวง (MEA)">
         <option value="บริษัท แสงมิตร (Delight)">
         <option value="บริษัท วันเนส เอ็นเนอยี่">
@@ -7517,9 +8020,9 @@ body {
         <option value="บริษัท ไอเอ็นซี (INC)">
         <option value="บริษัท อิเรเดี๊ยน (IRR)">
         <option value="บริษัท เอนเนอร์จี ฟอร์ ออลล์">
-        <option value="สนามบินดอนเมือง กทม.">
-        <option value="สนามบินสุวรรณภูมิ สมุทรปราการ">
-        <option value="สถานีรถไฟกลางบางซื่อ กทม.">
+        <option value="สนามบินดอนเมือง">
+        <option value="สนามบินสุวรรณภูมิ">
+        <option value="สถานีรถไฟกลางบางซื่อ">
       </datalist>
       
       <!-- คำแนะนำการกรอก (collapsible) -->
@@ -7647,9 +8150,9 @@ body {
         <div class="field-inline" style="border-left: 1px solid var(--slate-200); padding-left: 16px; margin-left: 4px;">
           <label><span id="receiptAttachIcon"></span> หน้าเปล่าแนบสลิป</label>
           <select id="blankPagesCount" onchange="renderReceipt()" style="padding:8px 12px; border-radius:8px; border:1px solid var(--slate-300); background:white; font-size:13px; cursor:pointer;">
-            <option value="0">ไม่มี</option>
+            <option value="0" selected>ไม่มี (ใบเบิกอย่างเดียว 1 หน้า)</option>
             <option value="1">1 หน้า</option>
-            <option value="2" selected>2 หน้า (แนะนำ)</option>
+            <option value="2">2 หน้า</option>
             <option value="3">3 หน้า</option>
             <option value="5">5 หน้า</option>
             <option value="10">10 หน้า</option>
@@ -7669,11 +8172,11 @@ body {
       <div id="printTipBanner" class="receipt-print-tip">
         <span id="printTipIcon"></span>
         <div style="flex:1;">
-          <strong>เพื่อให้พิมพ์เป็น 1 หน้าพอดี — ตอนกด Ctrl+P:</strong>
+          <strong>เอกสารตั้งเป็น A4 แนวนอนให้อัตโนมัติแล้ว — ตอนกด Ctrl+P เพิ่มแค่:</strong>
           <div style="font-size:12px; margin-top:2px;">
-            1. กำหนด <strong>Layout = Landscape (แนวนอน)</strong> &nbsp;|&nbsp; 
-            2. กำหนด <strong>Margins = None (ไม่มี)</strong> &nbsp;|&nbsp;
-            3. ติ๊ก ☑ <strong>Background graphics</strong>
+            1. กำหนด <strong>Margins = None (ไม่มี)</strong> &nbsp;|&nbsp;
+            2. เลือก <strong>Landscape</strong> ถ้าเครื่องไม่ตั้งให้อัตโนมัติ
+            &nbsp;|&nbsp; ไม่จำเป็นต้องติ๊ก <strong>Print backgrounds</strong>
           </div>
         </div>
         <button onclick="this.parentElement.style.display='none'" style="background:transparent;border:none;font-size:18px;cursor:pointer;color:#78350f;padding:0 6px;">×</button>
@@ -7736,9 +8239,9 @@ body {
         <button class="mobile-toggle" onclick="toggleSidebar()" aria-label="เปิดเมนู"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="22" height="22"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
       </div>
       
-      <div class="form-card settings-card settings-api-card" style="max-width: 700px;">
-        <h3><span id="settingsApiIcon"></span> Google Sheets API</h3>
-        
+      <details class="form-card settings-card settings-api-card settings-collapsible" style="max-width: 700px;">
+        <summary class="settings-summary"><h3><span id="settingsApiIcon"></span> Google Sheets API</h3><span class="settings-chevron">⌄</span></summary>
+
         <div class="settings-note">
           <span id="settingsGuideIcon"></span> <strong>ยังไม่ได้ Setup?</strong> เปิดโฟลเดอร์ "SSC Expense System" ใน Google Drive — มีคู่มือพร้อมใช้
         </div>
@@ -7768,12 +8271,12 @@ body {
         </div>
         
         <div id="apiStatusBox" style="margin-top: 14px; display: none;"></div>
-      </div>
-      
+      </details>
+
       <!-- Sync Actions -->
-      <div class="form-card settings-card settings-sync-card" style="margin-top: 20px; max-width: 700px;">
-        <h3><span id="settingsSyncIcon"></span> Sync ข้อมูล</h3>
-        
+      <details class="form-card settings-card settings-sync-card settings-collapsible" style="margin-top: 20px; max-width: 700px;">
+        <summary class="settings-summary"><h3><span id="settingsSyncIcon"></span> Sync ข้อมูล</h3><span class="settings-chevron">⌄</span></summary>
+
         <div class="sync-panel">
           <div class="settings-sync-grid">
             <div class="settings-metric">
@@ -7802,16 +8305,26 @@ body {
             <span id="settingsDownloadIcon"></span> ดึงข้อมูลจาก Cloud
           </button>
         </div>
+        <div class="settings-actions">
+          <button class="btn btn-secondary" onclick="exportLocalData()" id="btnExportLocal">
+            <span id="settingsExportIcon"></span> สำรองข้อมูลเป็นไฟล์
+          </button>
+          <button class="btn btn-secondary" onclick="document.getElementById('backupImportInput').click()" id="btnImportLocal">
+            <span id="settingsImportIcon"></span> นำข้อมูลกลับเข้า
+          </button>
+          <input type="file" id="backupImportInput" accept="application/json,.json" style="display:none" onchange="handleImportFile(this.files)">
+        </div>
         
         <p class="settings-sync-help">
           <span id="settingsSyncHintIcon1"></span> <strong>อัพโหลด:</strong> ส่งข้อมูล Browser → Sheet (ทับของเก่า)<br>
-          <span id="settingsSyncHintIcon2"></span> <strong>ดาวน์โหลด:</strong> ดึง Sheet → Browser (ทับของเก่า)
+          <span id="settingsSyncHintIcon2"></span> <strong>ดาวน์โหลด:</strong> ดึง Sheet → Browser (ทับของเก่า)<br>
+          <span id="settingsBackupHintIcon"></span> <strong>สำรองไฟล์:</strong> เก็บข้อมูล Browser เป็นไฟล์ .json สำหรับย้ายเครื่องหรือกันข้อมูลหาย
         </p>
-      </div>
-      
-      <div class="form-card settings-card settings-info-card" style="margin-top: 20px; max-width: 700px;">
-        <h3><span id="settingsProfileIcon"></span> ข้อมูลผู้ใช้</h3>
-        
+      </details>
+
+      <details class="form-card settings-card settings-info-card settings-collapsible" style="margin-top: 20px; max-width: 700px;">
+        <summary class="settings-summary"><h3><span id="settingsProfileIcon"></span> ข้อมูลผู้ใช้</h3><span class="settings-chevron">⌄</span></summary>
+
         <div class="settings-section">
           <div class="info-row"><span class="label"><span id="settingsNameIcon"></span> ชื่อ-นามสกุล</span><span class="value">ธีรวัฒน์ ฉัตรพรมราช</span></div>
           <div class="info-row"><span class="label"><span id="settingsRoleIcon"></span> ตำแหน่ง</span><span class="value">Sales and Relationship Manager</span></div>
@@ -7819,8 +8332,8 @@ body {
           <div class="info-row"><span class="label"><span id="settingsEmailIcon"></span> อีเมล</span><span class="value">teerawat@siamsolar.co.th</span></div>
           <div class="info-row"><span class="label"><span id="settingsPhoneIcon"></span> เบอร์ติดต่อ</span><span class="value">084-825-5036</span></div>
         </div>
-      </div>
-      
+      </details>
+
       <div class="form-card settings-card settings-info-card" style="margin-top: 20px; max-width: 700px;">
         <h3><span id="settingsSystemIcon"></span> ค่าระบบ</h3>
         <div class="settings-section">
@@ -8054,6 +8567,9 @@ function initIcons() {
   setIcon('settingsDownloadIcon', 'download', 16);
   setIcon('settingsSyncHintIcon1', 'tip', 13);
   setIcon('settingsSyncHintIcon2', 'tip', 13);
+  setIcon('settingsExportIcon', 'download', 16);
+  setIcon('settingsImportIcon', 'upload', 16);
+  setIcon('settingsBackupHintIcon', 'tip', 13);
   setIcon('settingsProfileIcon', 'user', 18);
   setIcon('settingsNameIcon', 'user', 14);
   setIcon('settingsRoleIcon', 'briefcase', 14);
@@ -8212,6 +8728,8 @@ function updateSubItem(id, field, value) {
   if (!item) return;
   if (['km', 'tollGo', 'tollBack', 'other'].includes(field)) {
     item[field] = parseFloat(value) || 0;
+  } else if (field === 'from' || field === 'to') {
+    item[field] = fitRouteText(value);
   } else {
     item[field] = value;
   }
@@ -8252,6 +8770,10 @@ function formatMoney(value) {
   return value.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 }
 
+function fitRouteText(value) {
+  return String(value || '').trim().slice(0, 30);
+}
+
 function updateAddPageSummary() {
   const totals = subItems.reduce((acc, item) => {
     acc.fuel += (item.km || 0) * CONFIG.FUEL_RATE;
@@ -8264,6 +8786,46 @@ function updateAddPageSummary() {
   setText('miniSummaryFuel', formatMoney(totals.fuel));
   setText('miniSummaryToll', formatMoney(totals.toll));
   setText('miniSummaryOther', formatMoney(totals.other));
+}
+
+function markSubItemInvalid(id) {
+  const card = document.getElementById(`subItem-${id}`);
+  if (!card) return;
+  card.classList.add('invalid');
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => card.classList.remove('invalid'), 2200);
+}
+
+function validateExpenseForm(date) {
+  if (!date) return { ok: false, message: 'กรุณาเลือกวันที่' };
+
+  const filledItems = subItems.filter(item => {
+    return item.desc.trim() ||
+      item.from.trim() ||
+      item.to.trim() ||
+      item.km > 0 ||
+      item.tollGo > 0 ||
+      item.tollBack > 0 ||
+      item.other > 0 ||
+      item.otherNote.trim() ||
+      item.attachments.length > 0;
+  });
+
+  if (filledItems.length === 0) {
+    return { ok: false, message: 'กรุณากรอกรายละเอียดอย่างน้อย 1 รายการย่อย', itemId: subItems[0]?.id };
+  }
+
+  const missingDesc = filledItems.find(item => !item.desc.trim());
+  if (missingDesc) {
+    return { ok: false, message: 'กรุณากรอกรายละเอียดของรายการย่อยให้ครบ', itemId: missingDesc.id };
+  }
+
+  const zeroAmount = filledItems.find(item => calcSubItemTotal(item) <= 0);
+  if (zeroAmount) {
+    return { ok: false, message: 'รายการที่บันทึกต้องมียอดค่าใช้จ่ายมากกว่า 0 บาท', itemId: zeroAmount.id };
+  }
+
+  return { ok: true, items: filledItems };
 }
 
 function renderSubItems() {
@@ -8310,19 +8872,21 @@ function renderSubItems() {
           </div>
           
           <div class="field">
-            <label>รายละเอียด / วัตถุประสงค์ <span class="required">*</span></label>
-            <textarea oninput="updateSubItem(${item.id}, 'desc', this.value)" placeholder="เช่น เข้าพบลูกค้า MEA นำส่งเอกสารประมูลโครงการติดตั้ง Solar Rooftop">${escapeHtml(item.desc)}</textarea>
+            <label>รายละเอียด / วัตถุประสงค์ <span class="required">*</span>
+              <span class="char-count" id="descCount-${item.id}">${(item.desc||'').length}/100</span>
+            </label>
+            <textarea maxlength="100" oninput="updateSubItem(${item.id}, 'desc', this.value); document.getElementById('descCount-${item.id}').textContent = this.value.length + '/100'" placeholder="เช่น เข้าพบลูกค้า MEA นำส่งเอกสารประมูล Solar Rooftop">${escapeHtml(item.desc)}</textarea>
           </div>
-          
+
           <div class="route-row">
             <div>
-              <label>${icon('mapPin', 14)} ต้นทาง</label>
-              <input type="text" list="placesList" value="${escapeHtml(item.from)}" oninput="updateSubItem(${item.id}, 'from', this.value)" placeholder="ออฟฟิศ SSC">
+              <label>${icon('mapPin', 14)} ต้นทาง <span class="char-count" id="fromCount-${item.id}">${fitRouteText(item.from).length}/30</span></label>
+              <input type="text" maxlength="30" list="placesList" value="${escapeHtml(fitRouteText(item.from))}" oninput="updateSubItem(${item.id}, 'from', this.value); document.getElementById('fromCount-${item.id}').textContent = this.value.length + '/30'" placeholder="ออฟฟิศ SSC">
             </div>
             <div class="arrow">${icon('arrow', 18)}</div>
             <div>
-              <label>${icon('target', 14)} ปลายทาง</label>
-              <input type="text" list="placesList" value="${escapeHtml(item.to)}" oninput="updateSubItem(${item.id}, 'to', this.value)" placeholder="บริษัท [ชื่อลูกค้า] เขต... กทม.">
+              <label>${icon('target', 14)} ปลายทาง <span class="char-count" id="toCount-${item.id}">${fitRouteText(item.to).length}/30</span></label>
+              <input type="text" maxlength="30" list="placesList" value="${escapeHtml(fitRouteText(item.to))}" oninput="updateSubItem(${item.id}, 'to', this.value); document.getElementById('toCount-${item.id}').textContent = this.value.length + '/30'" placeholder="บริษัท [ชื่อลูกค้า] เขต...">
             </div>
           </div>
           
@@ -8365,7 +8929,7 @@ function renderSubItems() {
             </div>
             <div>
               <label>${icon('note', 14)} หมายเหตุ</label>
-              <input type="text" value="${escapeHtml(item.otherNote || '')}" oninput="updateSubItem(${item.id}, 'otherNote', this.value)" placeholder="เช่น ค่าอาหารรับรองลูกค้า 3 ท่าน ร้าน MK">
+              <input type="text" maxlength="50" value="${escapeHtml(item.otherNote || '')}" oninput="updateSubItem(${item.id}, 'otherNote', this.value)" placeholder="เช่น รับรองลูกค้า 3 ท่าน ร้าน MK">
             </div>
           </div>
           
@@ -8540,8 +9104,8 @@ function editItem(id) {
       id: subItemIdCounter,
       type: r.type || 'เดินทาง',
       desc: r.desc || '',
-      from: r.from || '',
-      to: r.to || '',
+      from: fitRouteText(r.from),
+      to: fitRouteText(r.to),
       km: r.km || 0,
       tollGo: r.tollGo || 0,
       tollBack: r.tollBack || 0,
@@ -8559,6 +9123,50 @@ function editItem(id) {
   showToast(`เปิดแก้ไข: ${docNo}`, 'success');
 }
 
+function duplicateItem(id) {
+  // ทำสำเนารายการเดิมมาเป็น "เอกสารใหม่" (ลดเวลากรอกซ้ำ) — ไม่ใช่โหมดแก้ไข
+  const data = getData();
+  let record = data.find(d => d.id === id || d.docNo === id);
+  if (!record) {
+    showToast('ไม่พบรายการที่จะทำสำเนา', 'error');
+    return;
+  }
+  const docNo = record.docNo;
+  const allSubs = data.filter(d => d.docNo === docNo);
+  if (allSubs.length === 0) { showToast('ไม่พบรายการ', 'error'); return; }
+
+  // ออกจากโหมดแก้ไข (ถ้ามี) → จะได้บันทึกเป็นเลขเอกสารใหม่
+  exitEditMode();
+
+  // คัดลอกข้อมูล header (วันที่ใช้ของเดิม ผู้ใช้แก้ทีหลังได้)
+  document.getElementById('fDate').value = allSubs[0].issueDate;
+  document.getElementById('fCustomer').value = allSubs[0].customer || '';
+
+  // คัดลอกรายการย่อย — ไม่คัดลอกรูปแนบ (สลิป/ใบเสร็จต้องแนบของจริงใหม่)
+  subItems = allSubs.map(r => {
+    subItemIdCounter++;
+    return {
+      id: subItemIdCounter,
+      type: r.type || 'เดินทาง',
+      desc: r.desc || '',
+      from: fitRouteText(r.from),
+      to: fitRouteText(r.to),
+      km: r.km || 0,
+      tollGo: r.tollGo || 0,
+      tollBack: r.tollBack || 0,
+      other: r.other || 0,
+      otherNote: r.otherNote || '',
+      attachments: []
+    };
+  });
+  renderSubItems();
+  updateGrandTotal();
+
+  goToPage('add');
+  setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+  showToast('ทำสำเนาแล้ว — แก้ไขข้อมูลแล้วกด "บันทึก" จะได้เลขเอกสารใหม่', 'success');
+}
+
 function deleteItem(id) {
   const data = getData();
   let record = data.find(d => d.id === id || d.docNo === id);
@@ -8566,7 +9174,7 @@ function deleteItem(id) {
     showToast('ไม่พบรายการ', 'error');
     return;
   }
-  
+
   const docNo = record.docNo;
   const allSubs = data.filter(d => d.docNo === docNo);
   
@@ -8583,18 +9191,14 @@ function deleteItem(id) {
 // ============ SAVE ============
 async function saveAllExpenses() {
   const date = document.getElementById('fDate').value;
-  if (!date) {
-    showToast('กรุณาเลือกวันที่', 'error');
+  const validation = validateExpenseForm(date);
+  if (!validation.ok) {
+    showToast(validation.message, 'error');
+    if (validation.itemId) markSubItemInvalid(validation.itemId);
     return;
   }
   
-  // Validate at least one sub-item with desc
-  const validItems = subItems.filter(s => s.desc.trim());
-  if (validItems.length === 0) {
-    showToast('กรุณากรอกรายละเอียดอย่างน้อย 1 รายการย่อย', 'error');
-    return;
-  }
-  
+  const validItems = validation.items;
   const customer = document.getElementById('fCustomer').value.trim();
   const stored = getData();
   
@@ -8627,8 +9231,8 @@ async function saveAllExpenses() {
       customer: customer,
       type: item.type,
       desc: item.desc.trim(),
-      from: item.from.trim(),
-      to: item.to.trim(),
+      from: fitRouteText(item.from),
+      to: fitRouteText(item.to),
       km: item.km,
       fuel,
       tollGo: item.tollGo,
@@ -9126,6 +9730,7 @@ function renderListTable(container, items) {
               <td class="center">${statusBadge(g.status)}</td>
               <td class="center">
                 <button class="action-btn edit" onclick="editItem('${g.docNo}')" title="แก้ไข">${icon('edit', 15)}</button>
+                <button class="action-btn duplicate" onclick="duplicateItem('${g.docNo}')" title="ทำสำเนาเป็นเอกสารใหม่">${icon('copy', 15)}</button>
                 <button class="action-btn delete" onclick="deleteItem('${g.docNo}')" title="ลบ">${icon('trash', 15)}</button>
               </td>
             </tr>
@@ -9156,6 +9761,7 @@ function renderListTable(container, items) {
             <div class="list-card-amount">฿${g.total.toLocaleString('th-TH', {minimumFractionDigits: 2})}</div>
             <div class="list-card-actions">
               <button class="action-btn edit" onclick="editItem('${g.docNo}')" title="แก้ไข">${icon('edit', 14)} แก้ไข</button>
+              <button class="action-btn duplicate" onclick="duplicateItem('${g.docNo}')" title="ทำสำเนา">${icon('copy', 14)} สำเนา</button>
               <button class="action-btn delete" onclick="deleteItem('${g.docNo}')" title="ลบ">${icon('trash', 14)}</button>
             </div>
           </div>
@@ -9300,8 +9906,8 @@ function renderReceipt() {
       <tr class="data-row">
         <td style="white-space:nowrap;">${formatDateShort(r.issueDate)}</td>
         <td class="desc">${escapeHtml(r.desc)}</td>
-        <td>${escapeHtml(r.from) || '—'}</td>
-        <td>${escapeHtml(r.to) || '—'}</td>
+        <td>${escapeHtml(fitRouteText(r.from)) || '—'}</td>
+        <td>${escapeHtml(fitRouteText(r.to)) || '—'}</td>
         <td class="num">${r.km > 0 ? fmt(r.km) : '—'}</td>
         <td class="num">${r.fuel > 0 ? fmt(r.fuel) : '—'}</td>
         <td class="num">${r.tollGo > 0 ? fmt(r.tollGo) : '—'}</td>
@@ -9313,13 +9919,11 @@ function renderReceipt() {
     `;
   });
   
-  // Empty rows logic:
-  // - ถ้ามี ≤ 10 รายการ: เติมให้ครบ 10 (ตารางดูเต็ม)
-  // - ถ้ามี 11-20 รายการ: เติมให้ครบ 20 (ใช้พื้นที่หน้าให้คุ้ม)
-  // - ถ้ามากกว่า 20: ไม่เติม (ปล่อย Page Break อัตโนมัติ)
+  // Empty rows logic (A4 แนวนอนแบบ fixed form):
+  // เติมแถวว่างให้ตารางมีพื้นที่กรอกข้อมูลลงมาพอดีหน้า และดันช่องลายเซ็นลงด้านล่าง
   let targetRows;
-  if (items.length <= 10) targetRows = 10;
-  else if (items.length <= 20) targetRows = 20;
+  if (items.length <= 4) targetRows = 10;
+  else if (items.length <= 10) targetRows = 12;
   else targetRows = items.length;
   
   const emptyRowsNeeded = Math.max(0, targetRows - items.length);
@@ -9407,13 +10011,8 @@ function renderReceipt() {
             <td>—</td>
           </tr>
           <tr class="grand-total-row">
-            <td colspan="9" style="text-align:right;">รวมทั้งสิ้น</td>
-            <td class="num">${fmt(totals.total)}</td>
-            <td>—</td>
-          </tr>
-          <tr class="grand-total-row">
-            <td colspan="2" style="text-align:left;font-weight:700;">รวมทั้งสิ้น (ตัวอักษร)</td>
-            <td colspan="8" style="text-align:left;font-weight:600;">${totalText}</td>
+            <td colspan="3" style="text-align:left;font-weight:700;">รวมทั้งสิ้น (ตัวอักษร)</td>
+            <td colspan="7" style="text-align:left;font-weight:600;">${totalText}</td>
             <td class="num" style="white-space:nowrap;">${fmt(totals.total)}</td>
           </tr>
         </tbody>
@@ -9455,13 +10054,13 @@ function renderReceipt() {
         <div class="sig-block">
           <div class="sig-role">ผู้ตรวจ</div>
           <div class="sig-line">&nbsp;</div>
-          <div class="sig-name">(........................................)</div>
+          <div class="sig-name">(................................................)</div>
           <div class="sig-date">วันที่ ........................................</div>
         </div>
         <div class="sig-block">
           <div class="sig-role">ผู้อนุมัติ</div>
           <div class="sig-line">&nbsp;</div>
-          <div class="sig-name">(........................................)</div>
+          <div class="sig-name">(................................................)</div>
           <div class="sig-date">วันที่ ........................................</div>
         </div>
       </div>
@@ -9488,8 +10087,8 @@ function renderReceipt() {
   const statsEl = document.getElementById('receiptStats');
   if (statsEl) {
     document.getElementById('receiptCount').textContent = `${items.length} รายการ`;
-    // A4 portrait: รายการเยอะอาจต่อหน้า 2+ ได้ แต่หัวตารางจะซ้ำให้ทุกหน้า
-    const receiptPages = Math.max(1, Math.ceil(items.length / 14));
+    // A4 landscape: รายการเยอะอาจต่อหน้า 2+ ได้ แต่หัวตารางจะซ้ำให้ทุกหน้า
+    const receiptPages = Math.max(1, Math.ceil(items.length / 20));
     const blankPages = parseInt(document.getElementById('blankPagesCount')?.value) || 0;
     // Bank slip pages: 2 per page
     const bankSlipCount = items.reduce((sum, r) => sum + (r.attachments?.filter(a => a.isBankSlip).length || 0), 0);
@@ -9498,21 +10097,141 @@ function renderReceipt() {
     document.getElementById('receiptPages').textContent = `~${totalPages} หน้า`;
     statsEl.style.display = 'flex';
   }
+
+  // ย่อใบเบิก (แนวนอน) ให้พอดีจอบนมือถือ
+  fitReceiptPreview();
 }
+
+/* ===== ย่อ "ทุกหน้า" (A4 แนวนอน) ให้พอดีความกว้างจอ — ใบเบิก + เอกสารแนบ + สลิป =====
+   แต่ละหน้า render เต็มขนาดจริง 297mm แล้วย่อด้วย transform: scale()
+   ใช้ margin-bottom ติดลบ เพื่อยุบช่องว่างที่ transform ทิ้งไว้ (ไม่ต้องคำนวณ height container) */
+function fitReceiptPreview() {
+  const region = document.getElementById('page-receipt');
+  if (!region) return;
+
+  const rc = document.getElementById('receiptContent');
+  const removeHint = () => { const h = rc && rc.querySelector('.receipt-preview-hint'); if (h) h.remove(); };
+
+  const papers = region.querySelectorAll(
+    '#receiptContent .receipt-paper, .blank-pages-preview .blank-page, .bank-slip-section .bank-slip-page'
+  );
+
+  let worst = 1; // scale น้อยสุดที่เจอ (ไว้โชว์ในป้าย)
+  papers.forEach(el => {
+    // รีเซ็ตก่อนเสมอ
+    el.style.transform = '';
+    el.style.transformOrigin = '';
+    el.style.removeProperty('margin-bottom');
+
+    const container = el.parentElement;
+    const avail = container ? container.clientWidth : 0;
+    const naturalW = el.offsetWidth; // = 297mm
+    if (!avail || !naturalW) return;
+
+    const scale = Math.min(1, avail / naturalW);
+    if (scale >= 0.999) return; // จอกว้างพอ ไม่ต้องย่อ
+
+    const naturalH = el.offsetHeight; // วัดก่อนใส่ transform
+    el.style.transformOrigin = 'top left';
+    el.style.transform = `scale(${scale})`;
+    // ยุบช่องว่างใต้กระดาษที่ scale ทิ้งไว้ + เว้นระยะ 24px (override !important ด้วย important)
+    el.style.setProperty('margin-bottom', (24 - naturalH * (1 - scale)) + 'px', 'important');
+    worst = Math.min(worst, scale);
+  });
+
+  removeHint();
+}
+
+// ปรับขนาดใหม่เมื่อหมุนจอ/เปลี่ยนขนาดหน้าต่าง
+let _fitReceiptTimer = null;
+window.addEventListener('resize', () => {
+  clearTimeout(_fitReceiptTimer);
+  _fitReceiptTimer = setTimeout(fitReceiptPreview, 150);
+});
+// คืนขนาดเต็มก่อนพิมพ์ (ทุกหน้า) แล้วย่อกลับหลังพิมพ์
+function resetReceiptScale() {
+  const region = document.getElementById('page-receipt');
+  if (!region) return;
+  region.querySelectorAll(
+    '#receiptContent .receipt-paper, .blank-pages-preview .blank-page, .bank-slip-section .bank-slip-page'
+  ).forEach(el => {
+    el.style.transform = '';
+    el.style.transformOrigin = '';
+    el.style.removeProperty('margin-bottom');
+  });
+  const hint = region.querySelector('.receipt-preview-hint');
+  if (hint) hint.remove();
+}
+
+function prepareReceiptPrintLayout() {
+  resetReceiptScale();
+
+  ['attachmentsPage', 'bankSlipSection', 'blankPagesSection'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const hasRealPage =
+      el.querySelector('.att-item, .bank-slip-page, .blank-page') ||
+      el.textContent.trim().length > 0;
+
+    if (!hasRealPage) {
+      el.innerHTML = '';
+      el.style.display = 'none';
+      el.style.height = '0';
+      el.style.minHeight = '0';
+      el.style.margin = '0';
+      el.style.padding = '0';
+      el.style.breakBefore = 'auto';
+      el.style.breakAfter = 'auto';
+      el.style.pageBreakBefore = 'auto';
+      el.style.pageBreakAfter = 'auto';
+    } else {
+      el.style.display = '';
+      el.style.height = '';
+      el.style.minHeight = '';
+      el.style.margin = '';
+      el.style.padding = '';
+      el.style.breakBefore = '';
+      el.style.breakAfter = '';
+      el.style.pageBreakBefore = '';
+      el.style.pageBreakAfter = '';
+    }
+  });
+}
+
+function restoreReceiptPrintLayout() {
+  ['attachmentsPage', 'bankSlipSection', 'blankPagesSection'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.display = '';
+    el.style.height = '';
+    el.style.minHeight = '';
+    el.style.margin = '';
+    el.style.padding = '';
+    el.style.breakBefore = '';
+    el.style.breakAfter = '';
+    el.style.pageBreakBefore = '';
+    el.style.pageBreakAfter = '';
+  });
+  fitReceiptPreview();
+}
+
+window.addEventListener('beforeprint', prepareReceiptPrintLayout);
+window.addEventListener('afterprint', restoreReceiptPrintLayout);
 
 function applyDensity(rowCount) {
   // คำนวณ density ตามจำนวน rows
-  // A4 portrait: ≤8 normal | 9-14 compact | 15-22 ultra | >22 extreme
+  // A4 landscape: ≤10 normal | 11-18 compact | 19-28 ultra | >28 extreme
   let density, label, icon_;
-  if (rowCount <= 8) {
+  if (rowCount <= 10) {
     density = 'normal';
     label = 'ปกติ';
     icon_ = icon('document', 13);
-  } else if (rowCount <= 14) {
+  } else if (rowCount <= 18) {
     density = 'compact';
     label = 'กระชับ';
     icon_ = icon('clipboard', 13);
-  } else if (rowCount <= 22) {
+  } else if (rowCount <= 28) {
     density = 'ultra';
     label = 'กระชับมาก';
     icon_ = icon('book', 13);
@@ -9528,14 +10247,8 @@ function applyDensity(rowCount) {
     paper.classList.remove('density-normal', 'density-compact', 'density-ultra', 'density-extreme');
     paper.classList.add(`density-${density}`);
     
-    // เพิ่ม badge บนหน้าจอ (ซ่อนตอน print)
-    let badge = paper.querySelector('.density-badge');
-    if (!badge) {
-      badge = document.createElement('div');
-      badge.className = 'density-badge';
-      paper.appendChild(badge);
-    }
-    badge.innerHTML = `${icon_} โหมด: ${label} (${rowCount} รายการ)`;
+    const badge = paper.querySelector('.density-badge');
+    if (badge) badge.remove();
   }
   
   return { density, label, rowCount };
@@ -9583,7 +10296,7 @@ function buildBankSlipsPages(items, from, to) {
       <div>
         <strong>สลิปธนาคาร — ${bankSlips.length} ใบ ใน ${totalPages} หน้า</strong>
         <div style="font-size:11px; color:var(--slate-600); margin-top:2px;">
-          ระบบดึงสลิปที่ติด tag "สลิปธนาคาร" มาจัดอัตโนมัติ • 2 ใบ/หน้า • ตอน Print เต็มหน้า A4 portrait
+          ระบบดึงสลิปที่ติด tag "สลิปธนาคาร" มาจัดอัตโนมัติ • 2 ใบ/หน้า • ตอน Print เต็มหน้า A4 แนวนอน
         </div>
       </div>
     </div>
@@ -9673,7 +10386,7 @@ function buildBlankPages(from, to) {
       <div>
         <strong>หน้าเปล่าสำหรับแปะสลิป/ใบเสร็จจริง — ${count} หน้า</strong>
         <div style="font-size:11px; color:var(--slate-500); margin-top:2px;">
-          เห็นในหน้าจอแบบย่อ • ตอน Print จะเต็มหน้า A4 portrait
+          เห็นในหน้าจอแบบย่อ • ตอน Print จะเต็มหน้า A4 แนวนอน
         </div>
       </div>
     </div>
@@ -9696,14 +10409,6 @@ function buildBlankPages(from, to) {
             <div class="row"><span class="label">ประจำงวด:</span><span class="value">${formatDateLong(from)} - ${formatDateLong(to)}</span></div>
             <div class="row"><span class="label">หน้า:</span><span class="value">${i} / ${count}</span></div>
           </div>
-        </div>
-        
-        <div class="blank-page-instruction">
-          <div class="left">
-            ${icon('paperclip', 14)}
-            <span><strong>วิธีใช้:</strong> แปะสลิป/ใบเสร็จจริงในพื้นที่ด้านล่าง — ใช้กาว/เทปกาวด้านหลังสลิป</span>
-          </div>
-          <div>หน้า ${i} / ${count}</div>
         </div>
         
         <div class="blank-page-area"></div>
@@ -9772,6 +10477,31 @@ function updateSignDate() {
 
 // อัปเดตวันที่ทันทีก่อน Print (กรณีพี่บอยกด Cmd+P / Ctrl+P)
 window.addEventListener('beforeprint', updateSignDate);
+
+/* ตั้งชื่อไฟล์ PDF ให้สื่อความหมาย — เบราว์เซอร์ใช้ document.title เป็นชื่อไฟล์ตอน "Save as PDF"
+   เฉพาะตอนพิมพ์หน้าใบเบิก แล้วคืนชื่อเดิมหลังพิมพ์ */
+let _prevDocTitle = null;
+function buildReceiptFileName() {
+  const fromStr = document.getElementById('receiptFrom')?.value || '';
+  const toStr = document.getElementById('receiptTo')?.value || '';
+  const fmt = (s) => {
+    if (!s) return '';
+    const [y, m, d] = s.split('-');
+    return `${d}-${m}-${(parseInt(y) + 543)}`; // วัน-เดือน-ปีพ.ศ.
+  };
+  const period = fromStr && toStr ? ` ${fmt(fromStr)} ถึง ${fmt(toStr)}` : '';
+  return `ใบเบิกค่าใช้จ่าย SSC${period}`;
+}
+window.addEventListener('beforeprint', () => {
+  const onReceipt = document.getElementById('page-receipt')?.classList.contains('active');
+  if (onReceipt) {
+    _prevDocTitle = document.title;
+    document.title = buildReceiptFileName();
+  }
+});
+window.addEventListener('afterprint', () => {
+  if (_prevDocTitle !== null) { document.title = _prevDocTitle; _prevDocTitle = null; }
+});
 
 // ============ THAI BAHT TEXT ============
 function bahtText(amount) {
@@ -9899,11 +10629,9 @@ function truncate(s, n) {
 
 function refreshAll() {
   renderDashboard();
-  // Update pending badge
-  const data = getData();
-  const pendingCount = data.filter(r => r.status === 'รออนุมัติ').length;
-  document.getElementById('badgePending').textContent = pendingCount;
-  document.getElementById('badgePending').style.display = pendingCount > 0 ? 'inline-block' : 'none';
+  // (เมนู "สถานะ/รออนุมัติ" ถูกซ่อนไว้ → ไม่ต้องโชว์ badge ตัวเลขในเมนูอีก)
+  const bp = document.getElementById('badgePending');
+  if (bp) bp.style.display = 'none';
 }
 
 // ============ CONFIG ============
@@ -10128,6 +10856,69 @@ async function syncDownloadAll() {
     btn.innerHTML = orig;
     btn.disabled = false;
   }
+}
+
+function exportLocalData() {
+  const items = getData();
+  if (items.length === 0) {
+    showToast('ยังไม่มีข้อมูลให้สำรอง', 'error');
+    return;
+  }
+
+  const now = new Date();
+  const stamp = now.toISOString().slice(0, 19).replace(/[-:T]/g, '');
+  const payload = {
+    app: 'SSC Expense System',
+    version: 'v6.42',
+    exportedAt: now.toISOString(),
+    itemCount: items.length,
+    items
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `ssc-expense-backup-${stamp}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  showToast(`สำรองข้อมูลแล้ว ${items.length} รายการ`, 'success');
+}
+
+function handleImportFile(files) {
+  const file = files && files[0];
+  const input = document.getElementById('backupImportInput');
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      const items = Array.isArray(parsed) ? parsed : parsed.items;
+      if (!Array.isArray(items)) throw new Error('Invalid backup file');
+
+      const currentCount = getData().length;
+      const actionText = currentCount > 0
+        ? `นำเข้า ${items.length} รายการ และทับข้อมูลเดิม ${currentCount} รายการใน Browser?`
+        : `นำเข้า ${items.length} รายการเข้า Browser?`;
+
+      if (!confirm(`${actionText}\n\nแนะนำให้สำรองไฟล์เดิมไว้ก่อนเสมอ`)) return;
+      saveData(items);
+      refreshAll();
+      updateLocalSyncCount();
+      showToast(`นำเข้าข้อมูลแล้ว ${items.length} รายการ`, 'success');
+    } catch (err) {
+      showToast('ไฟล์สำรองไม่ถูกต้อง กรุณาเลือกไฟล์ .json ที่ Export จากระบบนี้', 'error');
+    } finally {
+      if (input) input.value = '';
+    }
+  };
+  reader.onerror = () => {
+    showToast('อ่านไฟล์ไม่สำเร็จ', 'error');
+    if (input) input.value = '';
+  };
+  reader.readAsText(file, 'utf-8');
 }
 
 function clearAllData() {

@@ -9,9 +9,9 @@
 <meta name="apple-mobile-web-app-title" content="ใบเบิก SSC">
 <meta name="application-name" content="ใบเบิก SSC">
 <title>ใบเบิกค่าใช้จ่าย SSC</title>
-<link rel="icon" type="image/png" href="icon-ios.png">
-<link rel="apple-touch-icon" href="icon-ios.png">
-<link rel="apple-touch-icon" sizes="180x180" href="icon-ios.png">
+<link rel="icon" type="image/png" href="assets/icon-ios.png">
+<link rel="apple-touch-icon" href="assets/icon-ios.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/icon-ios.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700;800&family=Kanit:wght@400;500;600;700;800&family=Sarabun:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -2812,8 +2812,7 @@ td.center { text-align: center; }
   word-break: break-word;
 }
 
-/* Text columns: ต้นทาง / ปลายทาง — wrap ให้พอดีช่อง ไม่ล้นทับช่องอื่น
-   ฟอนต์เล็กลง (8px) เพื่อให้ข้อความ 40 ตัวอักษรลงพอดี ~2 บรรทัด */
+/* Text columns: ต้นทาง / ปลายทาง — wrap ให้พอดีช่อง ไม่ล้นทับช่องอื่น */
 .receipt-table tbody td:nth-child(3),
 .receipt-table tbody td:nth-child(4) {
   white-space: normal;
@@ -2822,7 +2821,7 @@ td.center { text-align: center; }
   text-align: left;
   padding-left: 4px;
   padding-right: 4px;
-  font-size: 7.2px;
+  font-size: 8.2px;
   line-height: 1.18;
 }
 
@@ -2973,7 +2972,7 @@ td.center { text-align: center; }
 }
 .grand-total-words .gtw-label {
   font-weight: 700;
-  color: #1e3a8a;
+  color: #000;
   white-space: nowrap;
 }
 .grand-total-words .gtw-value {
@@ -2981,7 +2980,7 @@ td.center { text-align: center; }
   font-weight: 700;
   color: #1e3a8a;
   text-align: center;
-  border-bottom: 1px dotted var(--slate-500);
+  border-bottom: 1px dotted #000;
   padding: 0 8px 2px;
   line-height: 1.4;
 }
@@ -3267,7 +3266,7 @@ td.center { text-align: center; }
   margin-bottom: 16px;
 }
 
-/* ============ BANK SLIP PAGES (สลิปธนาคารอัตโนมัติ) ============ */
+/* ============ RECEIPT ATTACHMENT PAGES (เอกสารแนบ A4 อัตโนมัติ) ============ */
 .bank-slip-section {
   display: block;
   margin-top: 20px;
@@ -6452,6 +6451,39 @@ body {
   gap: 6px;
 }
 
+#page-add .mobile-quick-entry {
+  display: none;
+}
+
+#page-add .desc-template-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: -2px 0 10px;
+}
+
+#page-add .desc-template-btn {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(13, 148, 136, 0.18);
+  border-radius: 999px;
+  color: #0f766e;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 800;
+  min-height: 30px;
+  padding: 5px 10px;
+  transition: background .16s ease, border-color .16s ease, transform .16s ease;
+}
+
+#page-add .desc-template-btn:hover {
+  background: #ecfeff;
+  border-color: rgba(13, 148, 136, 0.38);
+  transform: translateY(-1px);
+}
+
 #page-add .icon-btn {
   border-radius: 9px;
   height: 34px;
@@ -6714,15 +6746,59 @@ body {
     padding: 16px 14px;
   }
 
-  #page-add .sub-item-header,
-  #page-add .add-total-card > div {
-    align-items: flex-start !important;
-    flex-direction: column;
-  }
+	  #page-add .sub-item-header,
+	  #page-add .add-total-card > div {
+	    align-items: flex-start !important;
+	    flex-direction: column;
+	  }
 
-  #page-add .route-row {
-    grid-template-columns: 1fr;
-  }
+	  #page-add .mobile-quick-entry {
+	    background: linear-gradient(135deg, rgba(240, 253, 250, 0.96), rgba(236, 254, 255, 0.90));
+	    border: 1px solid rgba(13, 148, 136, 0.18);
+	    border-radius: 13px;
+	    display: grid;
+	    gap: 10px;
+	    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	    margin: 12px 0 14px;
+	    padding: 12px;
+	  }
+
+	  #page-add .mobile-quick-entry .field {
+	    margin: 0;
+	  }
+
+	  #page-add .mobile-quick-entry label {
+	    color: #0f766e;
+	    font-size: 11px;
+	    font-weight: 800;
+	    margin-bottom: 6px;
+	  }
+
+	  #page-add .mobile-quick-entry select,
+	  #page-add .mobile-quick-entry input {
+	    min-height: 42px;
+	    padding: 9px 10px;
+	  }
+
+	  #page-add .desktop-type-field,
+	  #page-add .desktop-other-field {
+	    display: none;
+	  }
+
+	  #page-add .desc-template-bar {
+	    display: grid;
+	    grid-template-columns: repeat(2, minmax(0, 1fr));
+	  }
+
+	  #page-add .desc-template-btn {
+	    justify-content: center;
+	    min-height: 34px;
+	    padding: 7px 8px;
+	  }
+
+	  #page-add .route-row {
+	    grid-template-columns: 1fr;
+	  }
 
   #page-add .route-row .arrow {
     display: none;
@@ -6823,41 +6899,38 @@ body {
     padding-bottom: calc(112px + env(safe-area-inset-bottom));
   }
 
-  .sidebar {
-    align-items: stretch;
-    background:
-      linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.99));
-    border-top: 1px solid rgba(45, 212, 191, 0.22);
-    bottom: 0 !important;
-    box-shadow: 0 -16px 34px rgba(2, 6, 23, 0.22);
-    display: grid;
-    gap: 4px;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    height: calc(88px + env(safe-area-inset-bottom)) !important;
-    left: 0 !important;
-    overflow: visible;
-    padding: 8px 6px calc(10px + env(safe-area-inset-bottom));
-    position: fixed !important;
-    right: 0 !important;
-    top: auto !important;
-    transform: none !important;
-    transition: none;
-    width: 100% !important;
-    z-index: 120;
-  }
+	  .sidebar {
+	    align-items: stretch;
+	    background: rgba(255, 255, 255, 0.96);
+	    backdrop-filter: blur(18px);
+	    border: 1px solid rgba(214, 225, 229, 0.90);
+	    border-radius: 22px 22px 0 0;
+	    border-top: 1px solid rgba(214, 225, 229, 0.90);
+	    bottom: 0 !important;
+	    box-shadow: 0 -14px 34px rgba(15, 23, 42, 0.14);
+	    display: grid;
+	    gap: 2px;
+	    grid-template-columns: repeat(5, minmax(0, 1fr));
+	    height: calc(86px + env(safe-area-inset-bottom)) !important;
+	    left: 8px !important;
+	    overflow: visible;
+	    padding: 9px 8px calc(10px + env(safe-area-inset-bottom));
+	    position: fixed !important;
+	    right: 8px !important;
+	    top: auto !important;
+	    transform: none !important;
+	    transition: none;
+	    width: auto !important;
+	    z-index: 120;
+	  }
 
   .sidebar.show {
     left: 0;
   }
 
-  .sidebar::before {
-    background: linear-gradient(90deg, #0d9488, #06b6d4, #10b981);
-    height: 3px;
-    left: 0;
-    right: 0;
-    top: 0;
-    width: 100%;
-  }
+	  .sidebar::before {
+	    display: none;
+	  }
 
   .sidebar-brand,
   .nav-section-label,
@@ -6866,46 +6939,52 @@ body {
     display: none !important;
   }
 
-  .nav-item {
-    align-items: center;
-    border: 1px solid transparent;
-    border-radius: 12px;
-    color: rgba(226, 232, 240, 0.72);
-    display: flex;
-    flex-direction: column;
-    font-size: 10px;
-    font-weight: 700;
-    gap: 5px;
-    justify-content: flex-start;
-    line-height: 1.25;
+	  .nav-item {
+	    align-items: center;
+	    border: 1px solid transparent;
+	    border-radius: 14px;
+	    color: #75838c;
+	    display: flex;
+	    flex-direction: column;
+	    font-size: 10.5px;
+	    font-weight: 800;
+	    gap: 4px;
+	    justify-content: flex-start;
+	    line-height: 1.25;
     margin: 0;
     min-width: 0;
     overflow: visible;
-    padding: 6px 2px;
-    text-align: center;
-    transform: none !important;
-  }
+	    padding: 7px 2px 4px;
+	    text-align: center;
+	    transform: none !important;
+	  }
+
+	  .nav-item[data-page="dashboard"] { order: 1; }
+	  .nav-item[data-page="list"] { order: 2; }
+	  .nav-item[data-page="add"] { order: 3; }
+	  .nav-item[data-page="receipt"] { order: 4; }
+	  .nav-item[data-page="settings"] { order: 5; }
 
   .nav-item::before,
   .nav-item::after {
     display: none;
   }
 
-  .nav-item .icon {
-    background: rgba(255,255,255,0.08);
-    border-radius: 10px;
-    display: grid;
-    height: 28px;
-    margin: 0;
-    place-items: center;
-    width: 28px;
-    flex-shrink: 0;
-  }
+	  .nav-item .icon {
+	    background: transparent;
+	    border-radius: 12px;
+	    display: grid;
+	    height: 30px;
+	    margin: 0;
+	    place-items: center;
+	    width: 30px;
+	    flex-shrink: 0;
+	  }
 
-  .nav-item .icon svg {
-    height: 16px;
-    width: 16px;
-  }
+	  .nav-item .icon svg {
+	    height: 21px;
+	    width: 21px;
+	  }
 
   .nav-item > span:last-child {
     display: block;
@@ -6921,23 +7000,55 @@ body {
     font-size: 0;
   }
 
-  .nav-label[data-mobile-label]::after {
-    content: attr(data-mobile-label);
-    font-size: 10px;
-  }
+	  .nav-label[data-mobile-label]::after {
+	    content: attr(data-mobile-label);
+	    font-size: 10.5px;
+	  }
 
-  .nav-item.active {
-    background: rgba(13, 148, 136, 0.18);
-    border-color: rgba(94, 234, 212, 0.22);
-    box-shadow: none;
-    color: #ffffff;
-  }
+	  .nav-item.active {
+	    background: transparent;
+	    border-color: transparent;
+	    box-shadow: none;
+	    color: #0f766e;
+	  }
 
-  .nav-item.active .icon {
-    background: linear-gradient(135deg, #0d9488, #06b6d4);
-    box-shadow: 0 8px 18px rgba(13, 148, 136, 0.22);
-    color: #ffffff;
-  }
+	  .nav-item.active .icon {
+	    background: transparent;
+	    box-shadow: none;
+	    color: #0f766e;
+	  }
+
+	  .nav-item[data-page="add"] {
+	    align-self: start;
+	    gap: 0;
+	    margin-top: -34px;
+	    padding: 0;
+	  }
+
+	  .nav-item[data-page="add"] .icon {
+	    background: linear-gradient(135deg, #14b8a6 0%, #0d9488 52%, #0891b2 100%);
+	    border: 6px solid #ffffff;
+	    border-radius: 999px;
+	    box-shadow: 0 16px 30px rgba(13, 148, 136, 0.34), 0 0 0 1px rgba(13, 148, 136, 0.14);
+	    color: #ffffff;
+	    height: 74px;
+	    width: 74px;
+	  }
+
+	  .nav-item[data-page="add"] .icon svg {
+	    height: 34px;
+	    width: 34px;
+	    stroke-width: 1.7;
+	  }
+
+	  .nav-item[data-page="add"] > span:last-child {
+	    display: none;
+	  }
+
+	  .nav-item[data-page="add"].active .icon {
+	    background: linear-gradient(135deg, #0f766e 0%, #0d9488 48%, #06b6d4 100%);
+	    box-shadow: 0 18px 34px rgba(13, 148, 136, 0.42), 0 0 0 1px rgba(13, 148, 136, 0.16);
+	  }
 
   .mobile-toggle,
   .sidebar-backdrop {
@@ -7745,22 +7856,22 @@ body {
   <!-- ============ SIDEBAR ============ -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-      <div class="logo brand-logo"><img src="SSC.png" alt="SSC"></div>
+      <div class="logo brand-logo"><img src="assets/SSC.png" alt="SSC"></div>
       <div class="name">Expense System</div>
     </div>
     
     <div class="nav-section-label">เมนูหลัก</div>
     <div class="nav-item" data-page="dashboard">
       <span class="icon" id="navIconHome"></span>
-      <span>หน้าหลัก</span>
+      <span class="nav-label" data-mobile-label="หน้าหลัก">หน้าหลัก</span>
     </div>
     <div class="nav-item active" data-page="add">
       <span class="icon" id="navIconAdd"></span>
-      <span>เพิ่มรายการ</span>
+      <span class="nav-label" data-mobile-label="เพิ่ม">เพิ่มรายการ</span>
     </div>
     <div class="nav-item" data-page="list">
       <span class="icon" id="navIconList"></span>
-      <span>ประวัติค่าใช้จ่าย</span>
+      <span class="nav-label" data-mobile-label="ประวัติ">ประวัติค่าใช้จ่าย</span>
     </div>
     <div class="nav-item" data-page="receipt">
       <span class="icon" id="navIconPrint"></span>
@@ -7894,18 +8005,18 @@ body {
         </div>
       </div>
       
-      <!-- Top Customers + Recent List (Grid) -->
+      <!-- Top Expenses + Recent List (Grid) -->
       <div class="bottom-grid">
-        <!-- Top 5 Customers -->
+        <!-- Top 5 Expenses -->
         <div class="dash-card">
           <div class="dash-card-header">
-            <h3><span id="topCustomersIcon"></span> Top 5 หน่วยงาน / โครงการ (ปีนี้)</h3>
-            <span class="period">เรียงตามยอด</span>
+            <h3><span id="topCustomersIcon"></span> Top 5 ค่าใช้จ่ายที่เยอะสุด</h3>
+            <span class="period">ปีนี้</span>
           </div>
           <div id="topCustomersBody">
             <div class="empty-state" style="padding: 30px 20px;">
               <div class="icon"><span id="topCustEmptyIcon"></span></div>
-              <p>ยังไม่มีข้อมูลลูกค้า</p>
+              <p>ยังไม่มีข้อมูลค่าใช้จ่าย</p>
             </div>
           </div>
         </div>
@@ -7959,12 +8070,14 @@ body {
             <label><span id="formCustomerIcon"></span> หน่วยงาน / โครงการ</label>
             <input type="text" id="fCustomer" maxlength="60" list="customerList" placeholder="เลือกหรือพิมพ์ เช่น MEA, อบรม SolarEdge, ประชุมภายใน...">
             <datalist id="customerList">
-              <!-- ลูกค้า/หน่วยงานหลัก -->
-              <option value="การไฟฟ้านครหลวง (MEA)">
-              <option value="บริษัท แสงมิตร (Delight)">
-              <option value="บริษัท วันเนส เอ็นเนอยี่">
-              <option value="บริษัท ไทยไทเฮ (TDK)">
-              <option value="บริษัท โซล่า เอนเนอร์จี (SEC)">
+	              <!-- ลูกค้า/หน่วยงานหลัก -->
+	              <option value="การไฟฟ้านครหลวง (MEA)">
+	              <option value="บริษัท บีเจ พาวเวอร์ โซลูชั่น จำกัด">
+	              <option value="บริษัท บีเจ พาวเวอร์ โฮลดิ้ง จำกัด">
+	              <option value="บริษัท แสงมิตร (Delight)">
+	              <option value="บริษัท วันเนส เอ็นเนอยี่">
+	              <option value="บริษัท ไทยไทเฮ (TDK)">
+	              <option value="บริษัท โซล่า เอนเนอร์จี (SEC)">
               <option value="บริษัท บูรพา (ETA)">
               <option value="บริษัท โซลาร์คิงส์ (SK)">
               <option value="บริษัท อิตัลไทยวิศวกรรม (ITE)">
@@ -7972,11 +8085,13 @@ body {
               <option value="บริษัท พิลเล่อร์ (Piller)">
               <option value="บริษัท ไอเอ็นซี (INC)">
               <option value="บริษัท อิเรเดี๊ยน (IRR)">
-              <option value="บริษัท เอนเนอร์จี ฟอร์ ออลล์">
-              <!-- งานภายใน/อบรม -->
-              <option value="ประชุม">
-              <option value="ประชุมภายใน SSC">
-              <option value="อบรม SolarEdge">
+	              <option value="บริษัท เอนเนอร์จี ฟอร์ ออลล์">
+	              <!-- งานภายใน/อบรม -->
+	              <option value="ออฟฟิศ SSC">
+	              <option value="คลังสินค้า SSC">
+	              <option value="ประชุม">
+	              <option value="ประชุมภายใน SSC">
+	              <option value="อบรม SolarEdge">
               <option value="อบรม KSTAR">
               <option value="อบรม Sunwoda">
               <option value="งานสัมมนา / Exhibition">
@@ -8176,14 +8291,14 @@ body {
         </div>
         
         <div class="field-inline" style="border-left: 1px solid var(--slate-200); padding-left: 16px; margin-left: 4px;">
-          <label><span id="receiptAttachIcon"></span> หน้าเปล่าแนบสลิป</label>
+          <label><span id="receiptAttachIcon"></span> หน้าเปล่าสำหรับแปะบิล</label>
           <select id="blankPagesCount" onchange="renderReceipt()" style="padding:8px 12px; border-radius:8px; border:1px solid var(--slate-300); background:white; font-size:13px; cursor:pointer;">
             <option value="0" selected>ไม่มี (ใบเบิกอย่างเดียว 1 หน้า)</option>
-            <option value="1">1 หน้า</option>
-            <option value="2">2 หน้า</option>
-            <option value="3">3 หน้า</option>
-            <option value="5">5 หน้า</option>
-            <option value="10">10 หน้า</option>
+            <option value="1">1 หน้า A4 แนวนอน</option>
+            <option value="2">2 หน้า A4 แนวนอน</option>
+            <option value="3">3 หน้า A4 แนวนอน</option>
+            <option value="5">5 หน้า A4 แนวนอน</option>
+            <option value="10">10 หน้า A4 แนวนอน</option>
           </select>
         </div>
         
@@ -8223,7 +8338,7 @@ body {
       <!-- Attachments Page (for print) -->
       <div id="attachmentsPage" class="attachments-page"></div>
       
-      <!-- Bank Slip Pages (สลิปธนาคาร auto-collected) -->
+      <!-- Receipt Attachment Pages (auto-collected) -->
       <div id="bankSlipSection" class="bank-slip-section"></div>
       
       <!-- Blank Pages Section (สำหรับแปะสลิป/ใบเสร็จจริง) -->
@@ -8765,6 +8880,14 @@ function updateSubItem(id, field, value) {
   updateGrandTotal();
 }
 
+function applyDescTemplate(id, text) {
+  const item = subItems.find(s => s.id === id);
+  if (!item) return;
+  item.desc = String(text || '').slice(0, 100);
+  renderSubItems();
+  showToast('เติมรายละเอียดตั้งต้นแล้ว แก้ไขต่อได้เลย', 'success');
+}
+
 function calcSubItemTotal(item) {
   const fuel = item.km * CONFIG.FUEL_RATE;
   return fuel + item.tollGo + item.tollBack + item.other;
@@ -8870,10 +8993,10 @@ function renderSubItems() {
   
   container.innerHTML = subItems.map((item, idx) => `
     <div class="sub-item-card" id="subItem-${item.id}">
-      <div class="sub-item-header">
-        <div class="sub-item-title">
-          <div class="sub-item-no">${idx + 1}</div>
-          <h3>รายการย่อยที่ ${idx + 1}</h3>
+	      <div class="sub-item-header">
+	        <div class="sub-item-title">
+	          <div class="sub-item-no">${idx + 1}</div>
+	          <h3>รายการย่อยที่ ${idx + 1}</h3>
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
           <div class="sub-item-subtotal">฿ <span id="subTotal-${item.id}">${calcSubItemTotal(item).toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span></div>
@@ -8881,17 +9004,33 @@ function renderSubItems() {
             <button class="icon-btn" onclick="duplicateSubItem(${item.id})" title="ทำสำเนา">${icon('copy', 16)}</button>
             <button class="icon-btn remove" onclick="removeSubItem(${item.id})" title="ลบรายการนี้">${icon('trash', 16)}</button>
           </div>
-        </div>
-      </div>
-      
-      <div class="sub-item-grid">
-        <!-- LEFT -->
-        <div class="sub-item-section">
-          <h4>${icon('clipboard', 14)} ข้อมูล + เส้นทาง</h4>
-          
-          <div class="field">
-            <label>ประเภทค่าใช้จ่าย</label>
-            <select onchange="updateSubItem(${item.id}, 'type', this.value)">
+	        </div>
+	      </div>
+
+	      <div class="mobile-quick-entry">
+	        <div class="field">
+	          <label>${icon('clipboard', 14)} ประเภท</label>
+	          <select onchange="updateSubItem(${item.id}, 'type', this.value)">
+	            <option value="เดินทาง" ${item.type === 'เดินทาง' ? 'selected' : ''}>ค่าเดินทาง</option>
+	            <option value="อาหาร" ${item.type === 'อาหาร' ? 'selected' : ''}>ค่าอาหาร</option>
+	            <option value="ที่พัก" ${item.type === 'ที่พัก' ? 'selected' : ''}>ค่าที่พัก</option>
+	            <option value="อื่นๆ" ${item.type === 'อื่นๆ' ? 'selected' : ''}>อื่นๆ</option>
+	          </select>
+	        </div>
+	        <div class="field">
+	          <label>${icon('cash', 14)} จำนวนเงิน</label>
+	          <input type="number" min="0" step="0.01" value="${item.other || ''}" oninput="updateSubItem(${item.id}, 'other', this.value)" placeholder="0">
+	        </div>
+	      </div>
+	      
+	      <div class="sub-item-grid">
+	        <!-- LEFT -->
+	        <div class="sub-item-section">
+	          <h4>${icon('clipboard', 14)} ข้อมูล + เส้นทาง</h4>
+	          
+	          <div class="field desktop-type-field">
+	            <label>ประเภทค่าใช้จ่าย</label>
+	            <select onchange="updateSubItem(${item.id}, 'type', this.value)">
               <option value="เดินทาง" ${item.type === 'เดินทาง' ? 'selected' : ''}>ค่าเดินทาง</option>
               <option value="อาหาร" ${item.type === 'อาหาร' ? 'selected' : ''}>ค่าอาหาร</option>
               <option value="ที่พัก" ${item.type === 'ที่พัก' ? 'selected' : ''}>ค่าที่พัก</option>
@@ -8899,12 +9038,18 @@ function renderSubItems() {
             </select>
           </div>
           
-          <div class="field">
-            <label>รายละเอียด / วัตถุประสงค์ <span class="required">*</span>
-              <span class="char-count" id="descCount-${item.id}">${(item.desc||'').length}/100</span>
-            </label>
-            <textarea maxlength="100" oninput="updateSubItem(${item.id}, 'desc', this.value); document.getElementById('descCount-${item.id}').textContent = this.value.length + '/100'" placeholder="เช่น เข้าพบลูกค้า MEA นำส่งเอกสารประมูล Solar Rooftop">${escapeHtml(item.desc)}</textarea>
-          </div>
+	          <div class="field">
+	            <label>รายละเอียด / วัตถุประสงค์ <span class="required">*</span>
+	              <span class="char-count" id="descCount-${item.id}">${(item.desc||'').length}/100</span>
+	            </label>
+	            <div class="desc-template-bar" aria-label="Template รายละเอียด">
+	              <button type="button" class="desc-template-btn" onclick="applyDescTemplate(${item.id}, 'เข้าพบลูกค้า เพื่อนำเสนอผลิตภัณฑ์')">เข้าพบลูกค้า</button>
+	              <button type="button" class="desc-template-btn" onclick="applyDescTemplate(${item.id}, 'นำส่งเอกสารให้ลูกค้า')">ส่งเอกสาร</button>
+	              <button type="button" class="desc-template-btn" onclick="applyDescTemplate(${item.id}, 'ค่า Taxi เดินทางไปพบลูกค้า')">Taxi</button>
+	              <button type="button" class="desc-template-btn" onclick="applyDescTemplate(${item.id}, 'รับรองลูกค้า')">รับรองลูกค้า</button>
+	            </div>
+	            <textarea maxlength="100" oninput="updateSubItem(${item.id}, 'desc', this.value); document.getElementById('descCount-${item.id}').textContent = this.value.length + '/100'" placeholder="เช่น เข้าพบลูกค้า MEA นำส่งเอกสารประมูล Solar Rooftop">${escapeHtml(item.desc)}</textarea>
+	          </div>
 
           <div class="route-row">
             <div>
@@ -8939,8 +9084,8 @@ function renderSubItems() {
             </div>
           </div>
           
-          <div class="field row-2">
-            <div>
+	          <div class="field row-2 desktop-other-field">
+	            <div>
               <label>${icon('road', 14)} ทางด่วน (ไป)</label>
               <input type="number" min="0" step="0.01" value="${item.tollGo || ''}" oninput="updateSubItem(${item.id}, 'tollGo', this.value)" placeholder="0">
             </div>
@@ -8971,8 +9116,8 @@ function renderSubItems() {
               <div class="sub-preview-item ${att.isBankSlip ? 'is-bank-slip' : ''}">
                 <img src="${att.data}" alt="${att.name}">
                 <button class="remove-btn" onclick="removeSubAttachment(${item.id}, ${i})">×</button>
-                <button class="bank-toggle" onclick="toggleBankSlip(${item.id}, ${i})" title="คลิกเพื่อ tag เป็นสลิปธนาคาร">
-                  ${att.isBankSlip ? `${icon('bank', 10)} สลิปธนาคาร` : `${icon('paperclip', 10)} tag สลิป`}
+                <button class="bank-toggle" onclick="toggleBankSlip(${item.id}, ${i})" title="คลิกเพื่อจัดรูปนี้ลงหน้า A4 แนวนอนแบบ 2 ใบ/หน้า">
+                  ${att.isBankSlip ? `${icon('bank', 10)} แนบ A4` : `${icon('paperclip', 10)} จัดหน้า A4`}
                 </button>
               </div>
             `).join('')}
@@ -9005,7 +9150,7 @@ async function handleSubFiles(subId, files) {
         mimeType: 'image/jpeg',
         data: compressed.dataUrl,
         size: compressed.size,
-        isBankSlip: false  // tag สำหรับสลิปธนาคาร (toggle ทีหลัง)
+        isBankSlip: false  // tag สำหรับเอกสารแนบ A4 (toggle ทีหลัง)
       });
     } catch {}
   }
@@ -9026,7 +9171,9 @@ function toggleBankSlip(subId, idx) {
   item.attachments[idx].isBankSlip = !item.attachments[idx].isBankSlip;
   renderSubItems();
   if (item.attachments[idx].isBankSlip) {
-    showToast('✓ ติด tag สลิปธนาคารแล้ว — จะแยกไปหน้าสลิปตอน Print', 'success');
+    showToast('✓ ตั้งเป็นเอกสารแนบ A4 แล้ว — จัด 2 ใบต่อหน้าแนวนอนตอน Print', 'success');
+  } else {
+    showToast('เอาออกจากหน้าแนบ A4 แล้ว', 'success');
   }
 }
 
@@ -9417,7 +9564,7 @@ function renderDashboard() {
   renderMonthlyChart(data, thisYear);
   renderCategoryChart(data, thisYear);
   
-  // Top customers
+  // Top expenses
   renderTopCustomers(yearData);
   
   // Recent list
@@ -9428,18 +9575,9 @@ function renderTopCustomers(yearData) {
   const body = document.getElementById('topCustomersBody');
   if (!body) return;
   
-  // Group by customer, sum totals
-  const customerMap = {};
-  yearData.forEach(r => {
-    const c = (r.customer || 'ไม่ระบุ').trim() || 'ไม่ระบุ';
-    if (!customerMap[c]) customerMap[c] = { total: 0, count: 0 };
-    customerMap[c].total += r.total;
-    customerMap[c].count += 1;
-  });
-  
-  // Sort and take top 5
-  const sorted = Object.entries(customerMap)
-    .map(([name, v]) => ({ name, ...v }))
+  // Sort individual expense records and take top 5
+  const sorted = [...yearData]
+    .filter(r => Number(r.total) > 0)
     .sort((a, b) => b.total - a.total)
     .slice(0, 5);
   
@@ -9447,7 +9585,7 @@ function renderTopCustomers(yearData) {
     body.innerHTML = `
       <div class="empty-state" style="padding: 30px 20px;">
         <div class="icon">${icon('trophy', 36)}</div>
-        <p>ยังไม่มีข้อมูลลูกค้า</p>
+        <p>ยังไม่มีข้อมูลค่าใช้จ่าย</p>
       </div>`;
     return;
   }
@@ -9456,12 +9594,14 @@ function renderTopCustomers(yearData) {
   
   body.innerHTML = sorted.map((c, i) => {
     const pct = maxTotal > 0 ? (c.total / maxTotal * 100) : 0;
+    const title = c.desc || c.customer || 'ไม่ระบุรายละเอียด';
+    const meta = `${formatDateShort(c.issueDate)} • ${c.customer || 'ไม่ระบุหน่วยงาน'}`;
     return `
       <div class="top-customer-item">
         <div class="top-customer-rank rank-${i + 1}">${i + 1}</div>
         <div class="top-customer-info">
-          <div class="top-customer-name">${escapeHtml(c.name)}</div>
-          <div class="top-customer-meta">${c.count} รายการ</div>
+          <div class="top-customer-name">${escapeHtml(title)}</div>
+          <div class="top-customer-meta">${escapeHtml(meta)}</div>
           <div class="top-customer-bar"><div class="top-customer-bar-fill" style="width:${pct}%"></div></div>
         </div>
         <div class="top-customer-amount">฿${c.total.toLocaleString('th-TH', {maximumFractionDigits: 0})}</div>
@@ -10036,12 +10176,12 @@ function renderReceipt() {
             <td class="num">${fmt(totals.tollBack)}</td>
             <td class="num">${fmt(totals.food + totals.hotel + totals.misc)}</td>
             <td class="num">${fmt(totals.total)}</td>
-            <td></td>
+            <td class="num">–</td>
           </tr>
           <tr class="grand-total-row">
             <td colspan="9" style="text-align:right;font-weight:700;">รวมทั้งสิ้น</td>
             <td class="num" style="white-space:nowrap;">${fmt(totals.total)}</td>
-            <td></td>
+            <td class="num">–</td>
           </tr>
         </tbody>
       </table>
@@ -10104,7 +10244,7 @@ function renderReceipt() {
   // Build attachments page for print
   buildAttachmentsPage(items, from, to);
   
-  // Build bank slip pages (auto-collected from tagged attachments)
+  // Build A4 attachment pages (auto-collected from tagged attachments)
   buildBankSlipsPages(items, from, to);
   
   // Build blank pages for pasting actual receipts
@@ -10328,9 +10468,9 @@ function buildBankSlipsPages(items, from, to) {
     <div class="bank-slip-info">
       ${icon('bank', 22)}
       <div>
-        <strong>สลิปธนาคาร — ${bankSlips.length} ใบ ใน ${totalPages} หน้า</strong>
+        <strong>สลิป/ใบเสร็จแนบ A4 — ${bankSlips.length} ใบ ใน ${totalPages} หน้า</strong>
         <div style="font-size:11px; color:var(--slate-600); margin-top:2px;">
-          ระบบดึงสลิปที่ติด tag "สลิปธนาคาร" มาจัดอัตโนมัติ • 2 ใบ/หน้า • ตอน Print เต็มหน้า A4 แนวนอน
+          ระบบดึงรูปที่กด "จัดหน้า A4" มาจัดอัตโนมัติ • 2 ใบ/หน้า • ตอน Print เต็มหน้า A4 แนวนอน
         </div>
       </div>
     </div>
@@ -10347,13 +10487,13 @@ function buildBankSlipsPages(items, from, to) {
             <div class="logo">${logoSrc ? `<img src="${logoSrc}" alt="SSC Logo">` : 'SSC'}</div>
             <div>
               <div class="company-name">บริษัท สยาม โซล่าร์ เซลล์ จำกัด</div>
-              <div class="doc-title">สลิปโอนเงิน — เลขที่ ${docNoStr}</div>
+              <div class="doc-title">เอกสารแนบสลิป/ใบเสร็จ — เลขที่ ${docNoStr}</div>
             </div>
           </div>
           <div class="right">
             <div><span class="label">ผู้เบิก:</span><span class="value">ธีรวัฒน์ ฉัตรพรมราช</span></div>
             <div><span class="label">ประจำงวด:</span><span class="value">${formatDateLong(from)} - ${formatDateLong(to)}</span></div>
-            <div><span class="label">สลิป:</span><span class="value">${pageSlips.length}/${SLIPS_PER_PAGE} ใบ • หน้า ${p + 1}/${totalPages}</span></div>
+            <div><span class="label">เอกสารแนบ:</span><span class="value">${pageSlips.length}/${SLIPS_PER_PAGE} ใบ • หน้า ${p + 1}/${totalPages}</span></div>
           </div>
         </div>
         
@@ -10367,7 +10507,7 @@ function buildBankSlipsPages(items, from, to) {
             return `
               <div class="bank-slip-cell">
                 <div class="slot-num">${slotNum}</div>
-                <div class="slip-img"><img src="${slip.data}" alt="bank slip ${slotNum}"></div>
+                <div class="slip-img"><img src="${slip.data}" alt="receipt attachment ${slotNum}"></div>
                 <div class="slip-caption">
                   <div class="row">
                     <span class="date">${icon('calendarDay', 12)} ${formatDate(slip.date)}</span>
@@ -10386,7 +10526,7 @@ function buildBankSlipsPages(items, from, to) {
         </div>
         
         <div class="bank-slip-page-footer">
-          <div>SSC Expense System — ${docNoStr} (Bank Slips)</div>
+          <div>SSC Expense System — ${docNoStr} (Receipt Attachments)</div>
           <div>หน้า ${p + 1} / ${totalPages} | พิมพ์เมื่อ ${formatDateShort(new Date())}</div>
         </div>
       </div>

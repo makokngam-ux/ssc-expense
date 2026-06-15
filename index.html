@@ -6,7 +6,12 @@
 <meta name="theme-color" content="#0a1f44">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>ระบบเบิกค่าใช้จ่าย SSC v6.42 Cloud</title>
+<meta name="apple-mobile-web-app-title" content="ใบเบิก SSC">
+<meta name="application-name" content="ใบเบิก SSC">
+<title>ใบเบิกค่าใช้จ่าย SSC</title>
+<link rel="icon" type="image/png" href="icon-ios.png">
+<link rel="apple-touch-icon" href="icon-ios.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-ios.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;500;600;700;800&family=Kanit:wght@400;500;600;700;800&family=Sarabun:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -2956,6 +2961,29 @@ td.center { text-align: center; }
 /* ข้อความ "รวมทั้งสิ้น (ตัวอักษร)" — สีน้ำเงินเข้ม */
 .receipt-table tbody tr.grand-total-row td[style*="font-weight:600"] {
   color: #1e3a8a !important;
+}
+
+/* รวมทั้งสิ้น (ตัวอักษร) — บนเส้นประจุดไข่ปลาใต้ตาราง */
+.grand-total-words {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 6px 2px 10px;
+  font-size: 11px;
+}
+.grand-total-words .gtw-label {
+  font-weight: 700;
+  color: #1e3a8a;
+  white-space: nowrap;
+}
+.grand-total-words .gtw-value {
+  flex: 1;
+  font-weight: 700;
+  color: #1e3a8a;
+  text-align: center;
+  border-bottom: 1px dotted var(--slate-500);
+  padding: 0 8px 2px;
+  line-height: 1.4;
 }
 
 /* แถวข้อมูล — link/cell hover effect (เฉพาะหน้าจอ) */
@@ -7717,7 +7745,7 @@ body {
   <!-- ============ SIDEBAR ============ -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-      <div class="logo brand-logo"><img src="assets/SSC.png" alt="SSC"></div>
+      <div class="logo brand-logo"><img src="SSC.png" alt="SSC"></div>
       <div class="name">Expense System</div>
     </div>
     
@@ -10008,17 +10036,23 @@ function renderReceipt() {
             <td class="num">${fmt(totals.tollBack)}</td>
             <td class="num">${fmt(totals.food + totals.hotel + totals.misc)}</td>
             <td class="num">${fmt(totals.total)}</td>
-            <td>—</td>
+            <td></td>
           </tr>
           <tr class="grand-total-row">
-            <td colspan="3" style="text-align:left;font-weight:700;">รวมทั้งสิ้น (ตัวอักษร)</td>
-            <td colspan="7" style="text-align:left;font-weight:600;">${totalText}</td>
+            <td colspan="9" style="text-align:right;font-weight:700;">รวมทั้งสิ้น</td>
             <td class="num" style="white-space:nowrap;">${fmt(totals.total)}</td>
+            <td></td>
           </tr>
         </tbody>
       </table>
       </div>
-      
+
+      <!-- รวมทั้งสิ้น (ตัวอักษร) — แสดงบนเส้นประใต้ตาราง ไม่อยู่ในตาราง -->
+      <div class="grand-total-words">
+        <span class="gtw-label">(จำนวนเงินตัวอักษร)</span>
+        <span class="gtw-value">${totalText}</span>
+      </div>
+
       <div class="receipt-footer-grid">
         <div class="note-box">
           <div class="label">${icon('note', 13)} หมายเหตุ</div>

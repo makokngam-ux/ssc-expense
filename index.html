@@ -3042,58 +3042,161 @@ td.center { text-align: center; }
 .receipt-summary-empty p { font-size: 14px; }
 
 /* Attachments Print Page */
-.attachments-page {
-  display: none;
-  page-break-before: always;
-  padding: 40px;
-  background: white;
-}
+/* ============ หน้าแนบสลิป/ใบเสร็จ — A4 แนวตั้ง 2 รูป/หน้า ช่องขนาดคงที่ ============ */
+.attachments-page { display: none; }
 
-.attachments-page .att-header {
+.att-page {
+  background: #fff;
+  width: 210mm;                 /* A4 แนวตั้ง */
+  box-sizing: border-box;
+  padding: 8mm 12mm 6mm;
+  transform-origin: top left;
+}
+/* ตัดหน้าใหม่เฉพาะ "ก่อน" หน้าถัดไป → ไม่มีหน้าเปล่าหลอกท้ายเอกสาร */
+.att-page + .att-page { page-break-before: always; }
+
+.att-page-header {
   text-align: center;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
   border-bottom: 2px solid var(--navy-700);
+  padding-bottom: 5px;
+  margin-bottom: 6px;
 }
+.att-page-title { font-weight: 700; color: var(--navy-900); font-size: 15px; }
+.att-page-sub { font-size: 11px; color: var(--slate-600); margin-top: 2px; }
 
-.attachments-page .att-header h1 {
-  font-size: 22px;
-  color: var(--navy-900);
-  font-weight: 700;
-}
-
-.attachments-page .att-header p {
-  color: var(--slate-600);
-  font-size: 13px;
-  margin-top: 4px;
-}
-
-.attachments-page .att-item {
-  margin-bottom: 32px;
+.att-slot {
+  height: 95mm;                 /* ช่องรูปแนวกว้าง/จัตุรัส */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 6mm;
   page-break-inside: avoid;
 }
-
-.attachments-page .att-item-header {
-  background: var(--cream-100);
-  padding: 10px 14px;
-  border-left: 4px solid var(--gold-500);
-  margin-bottom: 12px;
-  font-size: 13px;
+.att-slot:last-child { margin-bottom: 0; }
+.att-slot.att-tall { height: 120mm; }   /* รูปแนวตั้ง → ช่องสูงขึ้น (ใช้พื้นที่หน้าเต็มขึ้น) */
+.att-slot-cap {
+  padding: 4px 2px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--navy-900);
+  flex-shrink: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.att-slot-img {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;      /* ไม่มีพื้นหลัง — สะอาด */
+  overflow: hidden;
+  min-height: 0;
+  padding: 2mm;
+}
+.att-slot-img img {
+  width: 100%;                  /* เต็มกล่อง แล้ว contain จะขยาย/ย่อให้พอดีช่อง */
+  height: 100%;
+  object-fit: contain;          /* คงสัดส่วน ไม่ยืดเพี้ยน — รูปเล็กก็ถูกขยายให้เต็มช่อง */
 }
 
-.attachments-page .att-images {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+/* ===== แถบโซนสลิป (ตัวคุม + ปุ่มพิมพ์สลิป) ===== */
+.slip-zone-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
   gap: 12px;
+  margin: 32px 0 4px;
+  padding: 16px 20px;
+  background: var(--cream-50, #faf8f3);
+  border: 1px solid var(--cream-300, #e7e0d2);
+  border-left: 4px solid var(--gold-500);
+  border-radius: 12px;
+}
+.slip-zone-title { font-weight: 700; color: var(--navy-900); font-size: 15px; display: flex; align-items: center; gap: 8px; }
+.slip-zone-sub { font-size: 12px; color: var(--slate-500); margin-top: 2px; }
+.slip-zone-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.slip-zone-blank { font-size: 13px; color: var(--slate-600); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.slip-zone-blank select { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--slate-300); background: white; font-size: 13px; cursor: pointer; }
+@media print { .slip-zone-bar { display: none !important; } }
+
+/* ===== แท็บสลับมุมมอง ใบเบิก / สลิป ===== */
+.print-view-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 18px;
+  border-bottom: 2px solid var(--cream-300, #e7e0d2);
+}
+.pv-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 10px 18px;
+  margin-bottom: -2px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--slate-500);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: color .15s, border-color .15s;
+}
+.pv-tab:hover { color: var(--navy-700); }
+.pv-tab.active { color: var(--navy-900); border-bottom-color: var(--gold-500); }
+@media print { .print-view-tabs { display: none !important; } }
+
+/* สลับมุมมองบนจอ: ใบเบิก (default) / สลิป (.view-slips) */
+@media screen {
+  #page-receipt:not(.view-slips) .slip-zone-bar,
+  #page-receipt:not(.view-slips) .attachments-page,
+  #page-receipt:not(.view-slips) #blankPagesSection,
+  #page-receipt:not(.view-slips) #bankSlipSection { display: none !important; }
+
+  #page-receipt.view-slips #receiptContent,
+  #page-receipt.view-slips #printTipBanner { display: none !important; }
 }
 
-.attachments-page .att-images img {
-  width: 100%;
-  border: 1px solid var(--slate-300);
-  border-radius: 4px;
-  max-height: 400px;
-  object-fit: contain;
-  background: var(--slate-50);
+/* แสดงตัวอย่างหน้าสลิปบนจอ (ใต้ใบเบิก) */
+@media screen {
+  #page-receipt .attachments-page:not(:empty) { display: block; margin-top: 28px; }
+  #page-receipt .att-page {
+    border: 1px solid rgba(148, 163, 184, 0.34);
+    border-radius: 8px;
+    box-shadow: 0 16px 38px rgba(15, 23, 42, 0.10);
+    margin: 0 auto 28px;
+  }
+}
+
+/* ===== โหมดพิมพ์: ใบเบิก (แนวนอน) vs สลิป (แนวตั้ง) ===== */
+@media print {
+  /* โหมดใบเบิก → ซ่อนหน้าสลิป/หน้าเปล่า/แบงก์ */
+  body.print-mode-receipt #attachmentsPage,
+  body.print-mode-receipt #blankPagesSection,
+  body.print-mode-receipt #bankSlipSection { display: none !important; }
+
+  /* โหมดสลิป → ซ่อนใบเบิก เหลือหน้าสลิป + หน้าเปล่าแปะบิล (แนวตั้ง) */
+  body.print-mode-slips #receiptContent,
+  body.print-mode-slips #bankSlipSection { display: none !important; }
+  body.print-mode-slips .attachments-page { display: block !important; }
+  body.print-mode-slips #blankPagesSection { display: block !important; }
+  body.print-mode-slips .att-page,
+  body.print-mode-slips .blank-pages-preview .blank-page {
+    width: 100% !important;
+    transform: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+  /* หน้าเปล่าแปะบิลในโหมดสลิป = เต็มหน้า A4 แนวตั้ง 1 แผ่น/หน้า */
+  body.print-mode-slips .blank-pages-preview .blank-page {
+    min-height: auto !important;
+    page-break-before: always;
+    page-break-after: auto;
+    page-break-inside: avoid;
+  }
+  body.print-mode-slips .blank-page-area { min-height: 19cm !important; }
 }
 
 /* ============ BLANK PAGES (สำหรับแปะสลิปจริง) ============ */
@@ -7445,9 +7548,16 @@ body {
     transform-origin: top left;
   }
 
-  /* หน้าเปล่า/สลิป/เอกสารแนบ = A4 แนวนอนเต็มขนาดจริง (297mm) แล้ว JS ย่อ scale ให้พอดีจอ
-     เหมือนใบเบิก — ทุกหน้าเป็นแนวนอนหมด */
-  #page-receipt .blank-pages-preview .blank-page,
+  /* หน้าเปล่าแปะบิล = A4 แนวตั้ง (210mm) — อยู่ในชุดพิมพ์สลิป */
+  #page-receipt .blank-pages-preview .blank-page {
+    width: 210mm;
+    max-width: none;
+    min-height: 287mm;
+    padding: 12mm;
+    transform-origin: top left;
+  }
+
+  /* สลิปธนาคาร (auto) คงไว้แนวนอน */
   #page-receipt .bank-slip-page {
     width: 297mm;
     max-width: none;
@@ -7459,12 +7569,12 @@ body {
   #page-receipt .blank-pages-preview-info,
   #page-receipt .bank-slip-info {
     margin: 0 auto 18px;
-    max-width: 297mm;
-    width: min(100%, 297mm);
+    max-width: 210mm;
+    width: min(100%, 210mm);
   }
 
   #page-receipt .blank-page-area {
-    min-height: 150mm;
+    min-height: 215mm;
   }
 
   #page-receipt .bank-slip-grid {
@@ -7846,6 +7956,88 @@ body {
   #page-receipt .receipt-table tbody tr.grand-total-row td:last-child {
     text-align: center !important;
   }
+}
+
+/* ============ PRINT MODE — แยกใบเบิก / สลิป เด็ดขาด (v6.65) ============
+   specificity สูง (2 ids) เพื่อชนะกฎเก่าที่บังคับโชว์ attachments ทุกการพิมพ์ */
+@media print {
+  /* โหมด "พิมพ์ใบเบิก" (แนวนอน): เหลือเฉพาะใบเบิก — ซ่อนสลิป/หน้าเปล่า/แบงก์ */
+  body.print-mode-receipt #page-receipt #attachmentsPage,
+  body.print-mode-receipt #page-receipt #blankPagesSection,
+  body.print-mode-receipt #page-receipt #bankSlipSection {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    page-break-before: auto !important;
+    page-break-after: auto !important;
+  }
+  /* โหมด "พิมพ์สลิป" (แนวตั้ง): ซ่อนใบเบิก — เหลือสลิป + หน้าเปล่าแปะบิล */
+  body.print-mode-slips #page-receipt #receiptContent,
+  body.print-mode-slips #page-receipt #bankSlipSection {
+    display: none !important;
+    height: 0 !important;
+  }
+  body.print-mode-slips #page-receipt #attachmentsPage:not(:empty),
+  body.print-mode-slips #page-receipt #blankPagesSection:not(:empty) {
+    display: block !important;
+  }
+}
+
+/* ============ PRINT MODE สลิป — คุมความสูง/ตัดหน้า กันบานหลายหน้า (v6.66) ============
+   ลบ min-height: 100vh / 297mm และ page-break-after: always เก่า ที่ทำให้หน้าเปล่าบาน */
+@media print {
+  body.print-mode-slips #page-receipt #attachmentsPage,
+  body.print-mode-slips #page-receipt #blankPagesSection {
+    display: block !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    page-break-before: auto !important;
+    page-break-after: auto !important;
+  }
+  /* แต่ละหน้า (สลิป/เปล่า) = สูงเท่าเนื้อหา + ขึ้นหน้าใหม่ "ก่อน" เท่านั้น (ไม่มีหน้าเปล่าหลอก) */
+  body.print-mode-slips #page-receipt .att-page,
+  body.print-mode-slips #page-receipt .blank-pages-preview .blank-page {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    page-break-before: always !important;
+    page-break-after: auto !important;
+    page-break-inside: avoid !important;
+    overflow: hidden !important;
+  }
+  /* หน้าแรกของชุดไม่ต้องขึ้นหน้าใหม่ */
+  body.print-mode-slips #page-receipt #attachmentsPage > .att-page:first-child {
+    page-break-before: auto !important;
+  }
+  /* ถ้าไม่มีรูปสลิป (attachments ว่าง) → หน้าเปล่าแผ่นแรกไม่ต้องขึ้นหน้าใหม่ */
+  body.print-mode-slips #page-receipt #attachmentsPage:empty ~ #blankPagesSection > .blank-page:first-child {
+    page-break-before: auto !important;
+  }
+  /* หน้าแปะบิล = เต็มหน้า A4 แนวตั้ง → พื้นที่แปะยืดเต็ม + เลขเอกสารดันไปขอบล่างสุด */
+  body.print-mode-slips #page-receipt .blank-pages-preview .blank-page {
+    min-height: 26cm !important;
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
+  }
+  body.print-mode-slips #page-receipt .blank-page-area {
+    flex: 1 1 auto !important;   /* ยืดเต็มพื้นที่ที่เหลือ */
+    min-height: 0 !important;
+    height: auto !important;
+  }
+  body.print-mode-slips #page-receipt .blank-page-footer {
+    flex-shrink: 0 !important;
+    margin-top: auto !important;  /* ดันเลขเอกสารไปขอบล่าง */
+  }
+  /* ช่องสลิป: แนวกว้าง 95mm, แนวตั้ง 120mm (Grab ใหญ่ขึ้น) — 2 ช่องยังลง 1 หน้าแนวตั้ง */
+  body.print-mode-slips #page-receipt .att-slot { height: 95mm !important; }
+  body.print-mode-slips #page-receipt .att-slot.att-tall { height: 120mm !important; }
 }
 </style>
 </head>
@@ -8267,11 +8459,25 @@ body {
           <button class="mobile-toggle" onclick="toggleSidebar()" aria-label="เปิดเมนู"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="22" height="22"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
           <button class="btn btn-gold" onclick="printReceipt()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
-            Print / PDF
+            พิมพ์ใบเบิก (แนวนอน)
+          </button>
+          <button class="btn btn-secondary" onclick="printSlips()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            พิมพ์สลิป (แนวตั้ง)
           </button>
         </div>
       </div>
-      
+
+      <!-- แท็บสลับมุมมอง: ใบเบิก / สลิป -->
+      <div class="print-view-tabs">
+        <button class="pv-tab active" data-view="receipt" onclick="setPrintView('receipt')">
+          <span id="pvTabReceiptIcon"></span> ใบเบิก (แนวนอน)
+        </button>
+        <button class="pv-tab" data-view="slips" onclick="setPrintView('slips')">
+          <span id="pvTabSlipIcon"></span> สลิป / ใบเสร็จ (แนวตั้ง)
+        </button>
+      </div>
+
       <!-- Controls -->
       <div class="receipt-controls">
         <div class="field-inline">
@@ -8288,18 +8494,6 @@ body {
           <button class="preset-btn" onclick="setReceiptPreset('2nd-half')">16-สิ้นเดือน</button>
           <button class="preset-btn" onclick="setReceiptPreset('this-month')">เดือนนี้</button>
           <button class="preset-btn" onclick="setReceiptPreset('last-month')">เดือนที่แล้ว</button>
-        </div>
-        
-        <div class="field-inline" style="border-left: 1px solid var(--slate-200); padding-left: 16px; margin-left: 4px;">
-          <label><span id="receiptAttachIcon"></span> หน้าเปล่าสำหรับแปะบิล</label>
-          <select id="blankPagesCount" onchange="renderReceipt()" style="padding:8px 12px; border-radius:8px; border:1px solid var(--slate-300); background:white; font-size:13px; cursor:pointer;">
-            <option value="0" selected>ไม่มี (ใบเบิกอย่างเดียว 1 หน้า)</option>
-            <option value="1">1 หน้า A4 แนวนอน</option>
-            <option value="2">2 หน้า A4 แนวนอน</option>
-            <option value="3">3 หน้า A4 แนวนอน</option>
-            <option value="5">5 หน้า A4 แนวนอน</option>
-            <option value="10">10 หน้า A4 แนวนอน</option>
-          </select>
         </div>
         
         <div id="receiptStats" class="receipt-stats">
@@ -8335,12 +8529,36 @@ body {
         </div>
       </div>
       
+      <!-- ============ โซนสลิป (พิมพ์แยก แนวตั้ง) ============ -->
+      <div class="slip-zone-bar">
+        <div class="slip-zone-info">
+          <div class="slip-zone-title"><span id="slipZoneIcon"></span> ใบแนบสลิป / ใบเสร็จ (พิมพ์แยก แนวตั้ง)</div>
+          <div class="slip-zone-sub">รูปสลิปที่แนบ 2 รูป/หน้า + หน้าเปล่าแปะบิล — แยกจากใบเบิก</div>
+        </div>
+        <div class="slip-zone-controls">
+          <label class="slip-zone-blank">หน้าเปล่าแปะบิล
+            <select id="blankPagesCount" onchange="renderReceipt()">
+              <option value="0" selected>ไม่มี</option>
+              <option value="1">+1 หน้า</option>
+              <option value="2">+2 หน้า</option>
+              <option value="3">+3 หน้า</option>
+              <option value="5">+5 หน้า</option>
+              <option value="10">+10 หน้า</option>
+            </select>
+          </label>
+          <button class="btn btn-secondary" onclick="printSlips()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            พิมพ์สลิป (แนวตั้ง)
+          </button>
+        </div>
+      </div>
+
       <!-- Attachments Page (for print) -->
       <div id="attachmentsPage" class="attachments-page"></div>
-      
+
       <!-- Receipt Attachment Pages (auto-collected) -->
       <div id="bankSlipSection" class="bank-slip-section"></div>
-      
+
       <!-- Blank Pages Section (สำหรับแปะสลิป/ใบเสร็จจริง) -->
       <div id="blankPagesSection" class="blank-pages-preview"></div>
     </div>
@@ -8689,6 +8907,9 @@ function initIcons() {
   setIcon('receiptFromIcon', 'calendarDay', 14);
   setIcon('receiptToIcon', 'calendarRange', 14);
   setIcon('receiptAttachIcon', 'paperclip', 14);
+  setIcon('slipZoneIcon', 'paperclip', 16);
+  setIcon('pvTabReceiptIcon', 'document', 15);
+  setIcon('pvTabSlipIcon', 'paperclip', 15);
   setIcon('receiptScrollIcon', 'arrow', 13);
   setIcon('printTipIcon', 'print', 20);
   setIcon('receiptEmptyIcon', 'empty', 42);
@@ -9946,13 +10167,25 @@ function initReceipt() {
   const today = new Date();
   const from = new Date(today.getFullYear(), today.getMonth(), 1);
   const to = new Date(today.getFullYear(), today.getMonth(), 15);
-  
+
   // Only set if empty
   if (!document.getElementById('receiptFrom').value) {
     document.getElementById('receiptFrom').value = toDateInputStr(from);
     document.getElementById('receiptTo').value = toDateInputStr(to);
   }
+  setPrintView('receipt'); // เปิดมาที่มุมมองใบเบิกก่อนเสมอ
   renderReceipt();
+}
+
+/* สลับมุมมองบนจอ: 'receipt' = ใบเบิก, 'slips' = สลิป/ใบเสร็จ */
+function setPrintView(v) {
+  const p = document.getElementById('page-receipt');
+  if (!p) return;
+  p.classList.toggle('view-slips', v === 'slips');
+  document.querySelectorAll('.pv-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.view === v)
+  );
+  window.scrollTo(0, 0);
 }
 
 function toDateInputStr(d) {
@@ -10287,7 +10520,7 @@ function fitReceiptPreview() {
   const removeHint = () => { const h = rc && rc.querySelector('.receipt-preview-hint'); if (h) h.remove(); };
 
   const papers = region.querySelectorAll(
-    '#receiptContent .receipt-paper, .blank-pages-preview .blank-page, .bank-slip-section .bank-slip-page'
+    '#receiptContent .receipt-paper, .blank-pages-preview .blank-page, .bank-slip-section .bank-slip-page, #attachmentsPage .att-page'
   );
 
   let worst = 1; // scale น้อยสุดที่เจอ (ไว้โชว์ในป้าย)
@@ -10327,7 +10560,7 @@ function resetReceiptScale() {
   const region = document.getElementById('page-receipt');
   if (!region) return;
   region.querySelectorAll(
-    '#receiptContent .receipt-paper, .blank-pages-preview .blank-page, .bank-slip-section .bank-slip-page'
+    '#receiptContent .receipt-paper, .blank-pages-preview .blank-page, .bank-slip-section .bank-slip-page, #attachmentsPage .att-page'
   ).forEach(el => {
     el.style.transform = '';
     el.style.transformOrigin = '';
@@ -10345,7 +10578,7 @@ function prepareReceiptPrintLayout() {
     if (!el) return;
 
     const hasRealPage =
-      el.querySelector('.att-item, .bank-slip-page, .blank-page') ||
+      el.querySelector('.att-page, .att-item, .bank-slip-page, .blank-page') ||
       el.textContent.trim().length > 0;
 
     if (!hasRealPage) {
@@ -10558,9 +10791,9 @@ function buildBlankPages(from, to) {
     <div class="blank-pages-preview-info">
       ${icon('paperclip', 18)}
       <div>
-        <strong>หน้าเปล่าสำหรับแปะสลิป/ใบเสร็จจริง — ${count} หน้า</strong>
+        <strong>หน้าเปล่าสำหรับแปะบิล/ใบเสร็จจริง — ${count} หน้า</strong>
         <div style="font-size:11px; color:var(--slate-500); margin-top:2px;">
-          เห็นในหน้าจอแบบย่อ • ตอน Print จะเต็มหน้า A4 แนวนอน
+          พิมพ์รวมกับชุด "สลิป" • เต็มหน้า A4 แนวตั้ง (กดปุ่ม "พิมพ์สลิป")
         </div>
       </div>
     </div>
@@ -10599,38 +10832,79 @@ function buildBlankPages(from, to) {
 }
 
 function buildAttachmentsPage(items, from, to) {
-  const itemsWithAtt = items.filter(r => r.attachmentCount > 0 && r.attachments && r.attachments.length > 0);
-  
-  if (itemsWithAtt.length === 0) {
-    document.getElementById('attachmentsPage').innerHTML = '';
-    return;
-  }
-  
-  const totalImages = itemsWithAtt.reduce((s, r) => s + r.attachments.length, 0);
-  
-  let html = `
-    <div class="att-header">
-      <h1>ใบแนบสลิป/ใบเสร็จ</h1>
-      <p>เอกสารประกอบใบเบิกค่าใช้จ่าย ${formatDateLong(from)} - ${formatDateLong(to)}</p>
-      <p>รวม ${totalImages} รูป จาก ${itemsWithAtt.length} รายการ</p>
-    </div>
-  `;
-  
-  itemsWithAtt.forEach((r, idx) => {
-    html += `
-      <div class="att-item">
-        <div class="att-item-header">
-          <strong>รายการที่ ${idx + 1}</strong> — ${formatDateLong(new Date(r.issueDate))} — ${escapeHtml(r.desc)}
-          ${r.to ? ` (ปลายทาง: ${escapeHtml(r.to)})` : ''}
-        </div>
-        <div class="att-images">
-          ${r.attachments.map(att => `<img src="${att.data}" alt="${att.name || 'slip'}">`).join('')}
-        </div>
-      </div>
-    `;
+  const el = document.getElementById('attachmentsPage');
+
+  // รวมรูปแนบทั้งหมดเป็นลิสต์เดียว พร้อมคำบรรยายของแต่ละรูป
+  const imgs = [];
+  items.forEach(r => {
+    (r.attachments || []).forEach(att => {
+      imgs.push({
+        data: att.data,
+        caption: `${formatDateShort(r.issueDate)} — ${(r.desc || '').trim() || '—'}${r.to ? ' (ปลายทาง: ' + r.to + ')' : ''}`
+      });
+    });
   });
-  
-  document.getElementById('attachmentsPage').innerHTML = html;
+
+  if (imgs.length === 0) { el.innerHTML = ''; return; }
+
+  // 2 รูป/หน้า A4 แนวตั้ง — ช่องขนาดคงที่
+  const perPage = 2;
+  const pageCount = Math.ceil(imgs.length / perPage);
+  let html = '';
+  for (let p = 0; p < pageCount; p++) {
+    const pair = imgs.slice(p * perPage, p * perPage + perPage);
+    html += `
+      <div class="att-page">
+        <div class="att-page-header">
+          <div class="att-page-title">ใบแนบสลิป / ใบเสร็จ — ประกอบใบเบิกค่าใช้จ่าย</div>
+          <div class="att-page-sub">${formatDateLong(from)} - ${formatDateLong(to)} &nbsp;•&nbsp; หน้า ${p + 1}/${pageCount}</div>
+        </div>
+        ${pair.map((im, k) => `
+          <div class="att-slot">
+            <div class="att-slot-cap">${p * perPage + k + 1}. ${escapeHtml(im.caption)}</div>
+            <div class="att-slot-img"><img src="${im.data}" alt="slip" onload="if(this.naturalHeight>this.naturalWidth*1.15)this.closest('.att-slot').classList.add('att-tall')"></div>
+          </div>`).join('')}
+      </div>`;
+  }
+  el.innerHTML = html;
+}
+
+function updateSignDate() {
+  const el = document.getElementById('signDate');
+  if (el) el.textContent = formatDateLong(new Date());
+}
+
+/* ===== ระบบพิมพ์ 2 โหมด: ใบเบิก (แนวนอน) / สลิป (แนวตั้ง) =====
+   เบราว์เซอร์ใช้ document.title เป็นชื่อไฟล์ตอน Save as PDF + ใช้ @page คุมแนวกระดาษ */
+let _prevDocTitle = null;
+function _periodStr() {
+  const fromStr = document.getElementById('receiptFrom')?.value || '';
+  const toStr = document.getElementById('receiptTo')?.value || '';
+  const fmt = (s) => { if (!s) return ''; const [y,m,d] = s.split('-'); return `${d}-${m}-${parseInt(y)+543}`; };
+  return fromStr && toStr ? ` ${fmt(fromStr)} ถึง ${fmt(toStr)}` : '';
+}
+function buildReceiptFileName() { return `ใบเบิกค่าใช้จ่าย SSC${_periodStr()}`; }
+function buildSlipsFileName() { return `สลิปแนบใบเบิก SSC${_periodStr()}`; }
+
+function setPrintMode(mode) {
+  const styleEl = document.getElementById('printPageStyle');
+  document.body.classList.remove('print-mode-receipt', 'print-mode-slips');
+  if (_prevDocTitle === null) _prevDocTitle = document.title;
+  if (mode === 'slips') {
+    document.body.classList.add('print-mode-slips');
+    styleEl.textContent = '@page { size: A4 portrait; margin: 0.55cm; }';
+    document.title = buildSlipsFileName();
+  } else {
+    document.body.classList.add('print-mode-receipt');
+    styleEl.textContent = '@page { size: A4 landscape; margin: 0.55cm; }';
+    document.title = buildReceiptFileName();
+  }
+}
+function clearPrintMode() {
+  document.body.classList.remove('print-mode-receipt', 'print-mode-slips');
+  const styleEl = document.getElementById('printPageStyle');
+  if (styleEl) styleEl.textContent = '';
+  if (_prevDocTitle !== null) { document.title = _prevDocTitle; _prevDocTitle = null; }
 }
 
 function printReceipt() {
@@ -10639,43 +10913,30 @@ function printReceipt() {
     showToast('กรุณาเลือกช่วงวันที่ก่อน', 'error');
     return;
   }
-  // อัปเดตวันที่ใต้ลายเซ็นผู้เบิก = วันที่ปริ้น
   updateSignDate();
+  setPrintMode('receipt');
   setTimeout(() => window.print(), 100);
 }
 
-function updateSignDate() {
-  const el = document.getElementById('signDate');
-  if (el) el.textContent = formatDateLong(new Date());
+function printSlips() {
+  const hasImg = document.querySelector('#attachmentsPage .att-page');
+  const hasBlank = document.querySelector('#blankPagesSection .blank-page');
+  if (!hasImg && !hasBlank) {
+    showToast('ยังไม่มีรูปสลิป และไม่ได้เลือกหน้าเปล่าแปะบิล — แนบรูปในหน้า "เพิ่มรายการ" หรือเลือกจำนวนหน้าเปล่าก่อนครับ', 'error');
+    return;
+  }
+  setPrintMode('slips');
+  setTimeout(() => window.print(), 100);
 }
 
-// อัปเดตวันที่ทันทีก่อน Print (กรณีพี่บอยกด Cmd+P / Ctrl+P)
-window.addEventListener('beforeprint', updateSignDate);
-
-/* ตั้งชื่อไฟล์ PDF ให้สื่อความหมาย — เบราว์เซอร์ใช้ document.title เป็นชื่อไฟล์ตอน "Save as PDF"
-   เฉพาะตอนพิมพ์หน้าใบเบิก แล้วคืนชื่อเดิมหลังพิมพ์ */
-let _prevDocTitle = null;
-function buildReceiptFileName() {
-  const fromStr = document.getElementById('receiptFrom')?.value || '';
-  const toStr = document.getElementById('receiptTo')?.value || '';
-  const fmt = (s) => {
-    if (!s) return '';
-    const [y, m, d] = s.split('-');
-    return `${d}-${m}-${(parseInt(y) + 543)}`; // วัน-เดือน-ปีพ.ศ.
-  };
-  const period = fromStr && toStr ? ` ${fmt(fromStr)} ถึง ${fmt(toStr)}` : '';
-  return `ใบเบิกค่าใช้จ่าย SSC${period}`;
-}
+// กด Cmd+P / Ctrl+P เอง → ตั้งเป็นโหมดใบเบิก (แนวนอน) ให้อัตโนมัติ
 window.addEventListener('beforeprint', () => {
-  const onReceipt = document.getElementById('page-receipt')?.classList.contains('active');
-  if (onReceipt) {
-    _prevDocTitle = document.title;
-    document.title = buildReceiptFileName();
+  updateSignDate();
+  if (!document.body.classList.contains('print-mode-receipt') && !document.body.classList.contains('print-mode-slips')) {
+    setPrintMode('receipt');
   }
 });
-window.addEventListener('afterprint', () => {
-  if (_prevDocTitle !== null) { document.title = _prevDocTitle; _prevDocTitle = null; }
-});
+window.addEventListener('afterprint', clearPrintMode);
 
 // ============ THAI BAHT TEXT ============
 function bahtText(amount) {
@@ -11148,6 +11409,9 @@ function clearLegacyMockData() {
 clearLegacyMockData();
 refreshAll();
 </script>
+
+<!-- ตั้งแนวกระดาษต่อการพิมพ์ (ต้องอยู่ท้ายสุด เพื่อให้ชนะ @page แบบ static ด้านบน) -->
+<style id="printPageStyle"></style>
 
 </body>
 </html>

@@ -6882,9 +6882,12 @@ body {
 	    padding: 9px 10px;
 	  }
 
-	  #page-add .desktop-type-field,
+	  #page-add .desktop-type-field {
+	    display: none;   /* ประเภทซ้ำกับ mobile-quick-entry → ซ่อน */
+	  }
+	  /* แถวช่องทางด่วน (ไป/กลับ) ให้แสดงบนมือถือด้วย */
 	  #page-add .desktop-other-field {
-	    display: none;
+	    display: grid;
 	  }
 
 	  #page-add .desc-template-bar {
@@ -8436,12 +8439,6 @@ body {
       <div class="list-card">
         <div class="list-header">
           <h3>ทั้งหมด</h3>
-          <div class="filter-tabs">
-            <div class="filter-tab active" data-filter="all" onclick="filterList('all')">ทั้งหมด</div>
-            <div class="filter-tab" data-filter="รออนุมัติ" onclick="filterList('รออนุมัติ')">รออนุมัติ</div>
-            <div class="filter-tab" data-filter="อนุมัติแล้ว" onclick="filterList('อนุมัติแล้ว')">อนุมัติแล้ว</div>
-            <div class="filter-tab" data-filter="จ่ายเงินแล้ว" onclick="filterList('จ่ายเงินแล้ว')">จ่ายแล้ว</div>
-          </div>
         </div>
         <div id="listBody"></div>
       </div>

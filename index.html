@@ -2997,7 +2997,8 @@ td.amount { font-weight: 700; }
 
 @media (max-width: 768px) {
   html, body { font-size: 15px; }
-  .main { margin-left: 0; padding: 14px 14px calc(var(--nav-h) + 28px + env(safe-area-inset-bottom)); }
+  /* เว้นแถบสถานะด้านบนของ iPhone (นาฬิกา/แบต) เมื่อเปิดจากไอคอนหน้าจอโฮม */
+  .main { margin-left: 0; padding: calc(14px + env(safe-area-inset-top)) 14px calc(var(--nav-h) + 28px + env(safe-area-inset-bottom)); }
   #page-add { padding-bottom: 76px; }
 
   /* แถบเมนูล่าง */

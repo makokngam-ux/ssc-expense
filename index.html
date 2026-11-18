@@ -3823,7 +3823,7 @@ td.amount { color: var(--c-ink) !important; }
         <div class="settings-section">
           <div class="info-row"><span class="label"><span id="settingsFuelIcon"></span> อัตราค่าน้ำมัน</span><span class="value">5 บาท/กม.</span></div>
           <div class="info-row"><span class="label"><span id="settingsFolderIcon"></span> โฟลเดอร์ Drive</span><span class="value">SSC Expense System</span></div>
-          <div class="info-row"><span class="label"><span id="settingsVersionIcon"></span> เวอร์ชัน</span><span class="value">v7.0 Cloud Edition</span></div>
+          <div class="info-row"><span class="label"><span id="settingsVersionIcon"></span> เวอร์ชัน</span><span class="value">v7.2 Cloud Edition</span></div>
         </div>
       </div>
       
@@ -4264,21 +4264,24 @@ function initAddForm() {
 // ประเภทบนหน้าจอ (kind) → map กลับเป็น type เดิมที่ใช้ในข้อมูล/ใบเบิก (ไม่เปลี่ยน schema)
 const KINDS = {
   car:   { label: 'รถส่วนตัว', short: 'รถส่วนตัว',   icon: 'car',   type: 'เดินทาง', amountLabel: 'ค่าอื่นๆ (ถ้ามี เช่น ที่จอดรถ)',
-           templates: [['เข้าพบลูกค้า', 'เข้าพบลูกค้า เพื่อนำเสนอผลิตภัณฑ์'], ['ส่งเอกสาร', 'นำส่งเอกสารให้ลูกค้า'], ['ตรวจหน้างาน', 'ตรวจสอบหน้างาน'], ['ประชุม', 'ประชุมกับลูกค้า']],
-           descPlaceholder: 'เช่น เข้าพบลูกค้า MEA นำส่งเอกสารประมูล Solar Rooftop' },
+           templates: [['เข้าพบลูกค้า', 'เข้าพบลูกค้า'], ['ประชุม', 'ประชุมกับลูกค้า'], ['สำรวจหน้างาน', 'สำรวจหน้างาน'], ['ส่งเอกสาร/สินค้า', 'นำส่งเอกสาร/สินค้าให้ลูกค้า'], ['อบรม', 'เดินทางไปอบรม']],
+           descPlaceholder: 'เช่น เข้าพบลูกค้า นำส่งเอกสารประมูล' },
   taxi:  { label: 'Taxi / Grab', short: 'Taxi', icon: 'mapPin', type: 'เดินทาง', amountLabel: 'ค่า Taxi / Grab',
-           templates: [['ไปสนามบิน', 'ค่า Taxi เดินทางไปสนามบิน'], ['กลับจากสนามบิน', 'ค่า Taxi เดินทางกลับจากสนามบิน'], ['ไปพบลูกค้า', 'ค่า Taxi เดินทางไปพบลูกค้า']],
-           descPlaceholder: 'เช่น ค่า Taxi เดินทางไปสนามบินดอนเมือง' },
+           templates: [['ไปสนามบิน', 'ค่า Taxi เดินทางไปสนามบิน'], ['กลับจากสนามบิน', 'ค่า Taxi เดินทางกลับจากสนามบิน'], ['ไปพบลูกค้า', 'ค่า Taxi เดินทางไปพบลูกค้า'], ['ระหว่างปฏิบัติงาน', 'ค่า Taxi ระหว่างปฏิบัติงาน']],
+           descPlaceholder: 'เช่น ค่า Taxi เดินทางไปสนามบิน' },
   food:  { label: 'รับรอง / อาหาร', short: 'รับรอง', icon: 'food', type: 'อาหาร', amountLabel: 'ค่ารับรอง / ค่าอาหาร',
-           templates: [['รับรองลูกค้า', 'รับรองลูกค้า'], ['อาหารระหว่างเดินทาง', 'ค่าอาหารระหว่างปฏิบัติงานนอกสถานที่']],
-           descPlaceholder: 'เช่น รับรองลูกค้า MEA 3 ท่าน หลังประชุมโครงการ' },
+           templates: [['อาหารระหว่างปฏิบัติงาน', 'ค่าอาหาร/เครื่องดื่ม ระหว่างปฏิบัติงาน'], ['รับรองลูกค้า', 'ค่าอาหารรับรองลูกค้า'], ['เครื่องดื่ม', 'ค่าเครื่องดื่ม ระหว่างปฏิบัติงาน']],
+           descPlaceholder: 'เช่น ค่าอาหารรับรองลูกค้า 3 ท่าน' },
   hotel: { label: 'ที่พัก', short: 'ที่พัก',       icon: 'hotel', type: 'ที่พัก', amountLabel: 'ค่าที่พัก',
            templates: [['ที่พัก 1 คืน', 'ค่าที่พัก 1 คืน'], ['ที่พัก 2 คืน', 'ค่าที่พัก 2 คืน']],
-           descPlaceholder: 'เช่น ค่าที่พัก 1 คืน ตรวจหน้างานระยอง' },
+           descPlaceholder: 'เช่น ค่าที่พัก 1 คืน ระหว่างปฏิบัติงาน' },
   other: { label: 'อื่นๆ', short: 'อื่นๆ',        icon: 'box',   type: 'อื่นๆ', amountLabel: 'จำนวนเงิน',
-           templates: [['ที่จอดรถ', 'ค่าที่จอดรถ'], ['ส่งพัสดุ/เอกสาร', 'ค่าส่งเอกสาร/พัสดุ']],
-           descPlaceholder: 'เช่น ค่าที่จอดรถ อาคาร...' }
+           templates: [['ที่จอดรถ', 'ค่าที่จอดรถ'], ['ส่งพัสดุ/เอกสาร', 'ค่าส่งเอกสาร/พัสดุ'], ['น้ำมันรถเช่า', 'ค่าน้ำมันรถเช่า']],
+           descPlaceholder: 'เช่น ค่าที่จอดรถ' }
 };
+// ตัวเลือกกลางๆ ที่ใช้ได้กับทุกงาน (ไม่ดึงชื่อเฉพาะจากประวัติ)
+const COMMON_PLACES = ['บางลำพู เขตพระนคร', 'ออฟฟิศ SSC', 'คลังสินค้า SSC', 'สนามบินสุวรรณภูมิ', 'สนามบินดอนเมือง'];
+const COMMON_PROJECTS = ['เข้าพบลูกค้า', 'ประชุมลูกค้า', 'สำรวจหน้างาน', 'อบรม / สัมมนา', 'ส่งเอกสาร / สินค้า', 'งานภายใน SSC'];
 const LEGACY_TYPE_TO_KIND = { 'เดินทาง': 'car', 'อาหาร': 'food', 'ที่พัก': 'hotel', 'อื่นๆ': 'other' };
 
 // เดา kind จากข้อมูลเก่าที่ยังไม่มี field kind
@@ -4314,38 +4317,46 @@ function getHistoryStats() {
       routeMap.get(key).count++;
     }
   });
-  const routes = [...routeMap.values()].sort((a, b) => b.count - a.count).slice(0, 4);
-  historyCache = { projects: projects.slice(0, 5), descs, routes };
+  const allRoutes = [...routeMap.values()];
+  historyCache = { projects, descs, allRoutes };
   return historyCache;
 }
 
 function renderRecentProjects() {
   const box = document.getElementById('recentProjects');
   if (!box) return;
-  const { projects } = getHistoryStats();
-  box.innerHTML = projects.map(p => `<button type="button" class="chip" data-proj="${escapeHtml(p)}" title="${escapeHtml(p)}">${escapeHtml(truncate(p, 30))}</button>`).join('');
+  box.innerHTML = COMMON_PROJECTS.map(p => `<button type="button" class="chip" data-proj="${escapeHtml(p)}">${escapeHtml(p)}</button>`).join('');
 }
 
-function applyRoute(id, idx) {
+// แตะชื่อสถานที่: ช่องต้นทางว่าง → ใส่ต้นทาง, ไม่ว่าง → ใส่ปลายทาง
+// ถ้าคู่ต้นทาง-ปลายทางตรงกับเส้นทางที่เคยบันทึก และยังไม่ได้กรอก กม. → เติม กม./ทางด่วนของครั้งก่อนให้ตรวจ
+function applyPlace(id, place) {
   const item = subItems.find(s => s.id === id);
-  const r = getHistoryStats().routes[idx];
-  if (!item || !r) return;
-  item.from = r.from; item.to = r.to; item.km = r.km; item.tollGo = r.tollGo; item.tollBack = r.tollBack;
+  if (!item) return;
+  if (!item.from) item.from = fitRouteText(place);
+  else item.to = fitRouteText(place);
+  let filled = false;
+  if (item.kind === 'car' && item.from && item.to && !item.km) {
+    const r = getHistoryStats().allRoutes.find(x => x.from === item.from && x.to === item.to);
+    if (r) { item.km = r.km; item.tollGo = r.tollGo; item.tollBack = r.tollBack; filled = true; }
+  }
   renderSubItems();
-  showToast('เติมเส้นทาง กม. และค่าทางด่วนจากครั้งก่อนแล้ว — ตรวจแล้วแก้ได้', 'success');
+  if (filled) showToast('เติม กม. และค่าทางด่วนของเส้นทางนี้จากครั้งก่อนแล้ว — ตรวจแล้วแก้ได้', 'success');
 }
 
 // ปุ่มทางลัดในหน้าเพิ่มรายการ (ใช้ data-attribute เพื่อรองรับข้อความที่มีเครื่องหมายคำพูด)
 document.addEventListener('click', (e) => {
-  const t = e.target.closest ? e.target.closest('[data-proj],[data-desc],[data-route]') : null;
+  const t = e.target.closest ? e.target.closest('[data-proj],[data-desc],[data-place]') : null;
   if (!t) return;
   if (t.dataset.proj !== undefined) {
-    document.getElementById('fCustomer').value = t.dataset.proj.slice(0, 60);
+    const f = document.getElementById('fCustomer');
+    f.value = t.dataset.proj.slice(0, 60);
     scheduleDraftSave();
+    f.focus();   // พิมพ์ชื่อลูกค้า/โครงการต่อท้ายได้เลย
   } else if (t.dataset.desc !== undefined) {
     applyDescTemplate(Number(t.dataset.item), t.dataset.desc);
-  } else if (t.dataset.route !== undefined) {
-    applyRoute(Number(t.dataset.item), Number(t.dataset.route));
+  } else if (t.dataset.place !== undefined) {
+    applyPlace(Number(t.dataset.item), t.dataset.place);
   }
 });
 
@@ -4610,13 +4621,9 @@ function renderSubItems() {
   if (!container) return;
   
   const money = (n) => (n || 0).toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-  // ปุ่มรายละเอียด: ของที่เคยใช้ล่าสุดกับประเภทนี้ก่อน แล้วตามด้วยข้อความสำเร็จรูป (รวมไม่เกิน 5)
-  const descChips = (item) => {
-    const K = KINDS[item.kind];
-    const recent = (getHistoryStats().descs[item.kind] || []).slice(0, 3).map(d => [truncate(d, 28), d]);
-    const all = [...recent, ...K.templates.filter(t => !recent.some(r => r[1] === t[1]))].slice(0, 5);
-    return all.map(t => `<button type="button" class="desc-template-btn" data-item="${item.id}" data-desc="${escapeHtml(t[1])}" title="${escapeHtml(t[1])}">${escapeHtml(t[0])}</button>`).join('');
-  };
+  // ปุ่มรายละเอียด: ข้อความกลางๆ ตามประเภท
+  const descChips = (item) => KINDS[item.kind].templates.map(t =>
+    `<button type="button" class="desc-template-btn" data-item="${item.id}" data-desc="${escapeHtml(t[1])}">${escapeHtml(t[0])}</button>`).join('');
 
   container.innerHTML = subItems.map((item, idx) => {
     if (!item.kind || !KINDS[item.kind]) item.kind = inferKind(item);
@@ -4646,13 +4653,12 @@ function renderSubItems() {
             <input type="number" inputmode="decimal" min="0" step="0.01" value="${item.other || ''}" oninput="updateSubItem(${item.id}, 'other', this.value)" placeholder="0.00">
           </div>`;
 
-    const routes = isCar ? getHistoryStats().routes : [];
-    const routeChips = routes.length ? `
-          <div class="chip-row-label">เส้นทางที่ใช้บ่อย — แตะเพื่อเติมให้</div>
-          <div class="chip-row" style="margin-bottom:12px;">${routes.map((r, i) => `<button type="button" class="chip route-chip" data-item="${item.id}" data-route="${i}">${icon('mapPin', 13)}<span>${escapeHtml(truncate(r.from, 14))} → ${escapeHtml(truncate(r.to, 18))}</span><small>${fmt(r.km)} กม.</small></button>`).join('')}</div>` : '';
+    const placeChips = `
+          <div class="chip-row-label">สถานที่ใช้บ่อย — แตะครั้งแรกเป็นต้นทาง ครั้งถัดไปเป็นปลายทาง</div>
+          <div class="chip-row" style="margin-bottom:12px;">${COMMON_PLACES.map(p => `<button type="button" class="chip" data-item="${item.id}" data-place="${escapeHtml(p)}">${icon('mapPin', 13)}<span>${escapeHtml(p)}</span></button>`).join('')}</div>`;
 
     const carFields = `
-          ${routeChips}
+          ${placeChips}
           ${routeRow}
           <div class="field" style="margin-top:14px;">
             <label>${icon('fuel', 14)} ระยะทางรวมที่เบิก (กม.) <span class="required">*</span></label>
@@ -4693,7 +4699,7 @@ function renderSubItems() {
         <!-- LEFT: ตัวเลข -->
         <div class="sub-item-section">
           <h4>${icon('cash', 14)} ${isCar ? 'เส้นทาง + ค่าใช้จ่าย' : 'จำนวนเงิน'}</h4>
-          ${isCar ? carFields : amountField + (hasRoute ? routeRow : '')}
+          ${isCar ? carFields : amountField + (hasRoute ? placeChips + routeRow : '')}
         </div>
 
         <!-- RIGHT: รายละเอียด + ใบเสร็จ -->
